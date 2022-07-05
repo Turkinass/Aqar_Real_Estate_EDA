@@ -1,0 +1,19 @@
+---
+title: "Aqar Real Estate EDA"
+format:
+  html:
+    code-fold: true
+jupyter: python3
+---
+
+# Overview of the dataset
+
+# EDA:
+
+## Turki & Yousef
+
+## Ahmed
+
+## Lana
+
+## Mohammed
