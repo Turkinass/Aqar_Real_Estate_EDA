@@ -115,9 +115,9 @@ s = d_yousef.district.value_counts()
 repeated = set(s[s > 30].index.values)
 d_district = d_yousef[d_yousef.district.isin(repeated)]
 '''
-avg_size_dist = d_district.groupby(['city', 'district'])[['size', 'price']].mean().reset_index()
-riyadh = avg_size_dist.query("city == 'الرياض' & size < 500")
-jeddah = avg_size_dist.query("city == 'جدة' & price < 160000")
+avg_size_dist = d_district.groupby(['city', 'district'])[['size', 'price']].mean().reset_index().sort_values('price')
+riyadh = avg_size_dist.query("city == 'الرياض' & size < 600")
+jeddah = avg_size_dist.query("city == 'جدة' & price < 160000 & size < 600")
 
 plt.figure(figsize=(10,10))
 
@@ -127,23 +127,24 @@ ax1 = plt.subplot(2,2,1)
 w = 0.3
 plt.title(plot_arabic(pd.Series('الرياض')))
 plt.xticks(x + w /2, plot_arabic(riyadh['district']), rotation='60')
-P =ax1.bar(x, riyadh['price'].sort_values(), width=w, color='r', align='center')
+P =ax1.bar(x, riyadh['price'], width=w, color='r', align='center')
 plt.ylabel(plot_arabic(pd.Series("السعر")))
 ax2 = ax1.twinx()
-S =ax2.bar(x + w, riyadh['size'].sort_values(), width=w,color='y',align='center')
-ax2.axes.yaxis.set_visible(False)
+S =ax2.bar(x + w, riyadh['size'], width=w,color='y',align='center')
+
 plt.legend([P, S], plot_arabic(pd.Series(['متوسط السعر', 'متوسط المساحة'])))
 
+
 # JEDDAH
-x2 = np.arange(len(jeddah))
-ax3 = plt.subplot(2,2,2)
-w2 = 0.3
+x = np.arange(len(jeddah))
+ax1 = plt.subplot(2,2,2)
+w = 0.3
 plt.title(plot_arabic(pd.Series('جدة')))
-plt.xticks(x2 + w2 /2, plot_arabic(jeddah['district']), rotation='60')
-P =ax3.bar(x2, jeddah['price'].sort_values(), width=w2, color='r', align='center')
-ax3.axes.yaxis.set_visible(False)
-ax4 = ax3.twinx()
-S =ax4.bar(x2 + w2, jeddah['size'].sort_values(), width=w2,color='y',align='center')
+plt.xticks(x + w /2, plot_arabic(jeddah['district']), rotation='60')
+P =ax1.bar(x, jeddah['price'], width=w, color='r', align='center')
+
+ax2 = ax1.twinx()
+S =ax2.bar(x + w, jeddah['size'], width=w,color='y',align='center')
 plt.ylabel(plot_arabic(pd.Series("المساحة")))
 plt.legend([P, S], plot_arabic(pd.Series(['متوسط السعر', 'متوسط المساحة'])))
 
@@ -158,7 +159,7 @@ display.Image("./side-by-side-bar.png")
 #| label: Table
 #| fig-cap: Highest average price districts 
 
-d_district.groupby(['city', 'district'])['price'].mean().sort_values(ascending=False).to_frame().head(10).reset_index()
+d_district.groupby(['city','district'])['price'].mean().sort_values(ascending=False).to_frame().reset_index().head(10)
 ```
 ## Ahmed
 

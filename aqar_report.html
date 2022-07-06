@@ -274,12 +274,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>plt.ylabel(plot_arabic(pd.Series(<span class="st">"المساحة"</span>)))</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>plt.legend([l1, l2], plot_arabic(pd.Series([<span class="st">"السعر"</span>, <span class="st">"المساحة"</span>])))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div id="line-chart-1" class="cell-output cell-output-display" data-execution_count="12">
-<pre><code>&lt;matplotlib.legend.Legend at 0x7f75e56db4c0&gt;</code></pre>
+<div id="line-chart-1" class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>&lt;matplotlib.legend.Legend at 0x7fd439c16cd0&gt;</code></pre>
 <p>Average price and size per city</p>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="aqar_report_files/figure-html/line-chart-output-2.png" id="line-chart-2" width="672" height="405"></p>
+<p><img src="aqar_report_files/figure-html/line-chart-output-2.png" id="line-chart-2" class="img-fluid"></p>
 </div>
 </div>
 <p><br><br></p>
@@ -292,9 +292,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>repeated <span class="op">=</span> <span class="bu">set</span>(s[s <span class="op">&gt;</span> <span class="dv">30</span>].index.values)</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>d_district <span class="op">=</span> d_yousef[d_yousef.district.isin(repeated)]</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">'''</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">avg_size_dist = d_district.groupby(['city', 'district'])[['size', 'price']].mean().reset_index()</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">riyadh = avg_size_dist.query("city == 'الرياض' &amp; size &lt; 500")</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">jeddah = avg_size_dist.query("city == 'جدة' &amp; price &lt; 160000")</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">avg_size_dist = d_district.groupby(['city', 'district'])[['size', 'price']].mean().reset_index().sort_values('price')</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">riyadh = avg_size_dist.query("city == 'الرياض' &amp; size &lt; 600")</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">jeddah = avg_size_dist.query("city == 'جدة' &amp; price &lt; 160000 &amp; size &lt; 600")</span></span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">plt.figure(figsize=(10,10))</span></span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
@@ -304,32 +304,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">w = 0.3</span></span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co">plt.title(plot_arabic(pd.Series('الرياض')))</span></span>
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co">plt.xticks(x + w /2, plot_arabic(riyadh['district']), rotation='60')</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co">P =ax1.bar(x, riyadh['price'].sort_values(), width=w, color='r', align='center')</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co">P =ax1.bar(x, riyadh['price'], width=w, color='r', align='center')</span></span>
 <span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co">plt.ylabel(plot_arabic(pd.Series("السعر")))</span></span>
 <span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co">ax2 = ax1.twinx()</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co">S =ax2.bar(x + w, riyadh['size'].sort_values(), width=w,color='y',align='center')</span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co">ax2.axes.yaxis.set_visible(False)</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co">S =ax2.bar(x + w, riyadh['size'], width=w,color='y',align='center')</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="co">plt.legend([P, S], plot_arabic(pd.Series(['متوسط السعر', 'متوسط المساحة'])))</span></span>
 <span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="co"># JEDDAH</span></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="co">x2 = np.arange(len(jeddah))</span></span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="co">ax3 = plt.subplot(2,2,2)</span></span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="co">w2 = 0.3</span></span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="co">plt.title(plot_arabic(pd.Series('جدة')))</span></span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="co">plt.xticks(x2 + w2 /2, plot_arabic(jeddah['district']), rotation='60')</span></span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="co">P =ax3.bar(x2, jeddah['price'].sort_values(), width=w2, color='r', align='center')</span></span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="co">ax3.axes.yaxis.set_visible(False)</span></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="co">ax4 = ax3.twinx()</span></span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="co">S =ax4.bar(x2 + w2, jeddah['size'].sort_values(), width=w2,color='y',align='center')</span></span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="co">plt.ylabel(plot_arabic(pd.Series("المساحة")))</span></span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="co">plt.legend([P, S], plot_arabic(pd.Series(['متوسط السعر', 'متوسط المساحة'])))</span></span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="co">plt.tight_layout()</span></span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="co">plt.show()</span></span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="co">'''</span></span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>display.Image(<span class="st">"./side-by-side-bar.png"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="co"># JEDDAH</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="co">x = np.arange(len(jeddah))</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="co">ax1 = plt.subplot(2,2,2)</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="co">w = 0.3</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="co">plt.title(plot_arabic(pd.Series('جدة')))</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="co">plt.xticks(x + w /2, plot_arabic(jeddah['district']), rotation='60')</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="co">P =ax1.bar(x, jeddah['price'], width=w, color='r', align='center')</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="co">ax2 = ax1.twinx()</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="co">S =ax2.bar(x + w, jeddah['size'], width=w,color='y',align='center')</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="co">plt.ylabel(plot_arabic(pd.Series("المساحة")))</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="co">plt.legend([P, S], plot_arabic(pd.Series(['متوسط السعر', 'متوسط المساحة'])))</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="co">plt.tight_layout()</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="co">plt.show()</span></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="co">'''</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>display.Image(<span class="st">"./side-by-side-bar.png"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="13">
+<div class="cell-output cell-output-display" data-execution_count="3">
 <div id="side-by-side-bar" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="aqar_report_files/figure-html/side-by-side-bar-output-1.png" class="img-fluid figure-img"></p>
@@ -342,9 +343,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell" data-execution_count="4">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>d_district.groupby([<span class="st">'city'</span>, <span class="st">'district'</span>])[<span class="st">'price'</span>].mean().sort_values(ascending<span class="op">=</span><span class="va">False</span>).to_frame().head(<span class="dv">10</span>).reset_index()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>d_district.groupby([<span class="st">'city'</span>,<span class="st">'district'</span>])[<span class="st">'price'</span>].mean().sort_values(ascending<span class="op">=</span><span class="va">False</span>).to_frame().reset_index().head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div id="table" class="cell-output cell-output-display" data-execution_count="14">
+<div id="table" class="cell-output cell-output-display" data-execution_count="4">
 
 <div>
 
@@ -440,7 +441,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell-output cell-output-display">
 <div id="corr" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="aqar_report_files/figure-html/corr-output-1.png" width="683" height="484" class="figure-img"></p>
+<p><img src="aqar_report_files/figure-html/corr-output-1.png" class="img-fluid figure-img"></p>
 <p></p><figcaption aria-hidden="true" class="figure-caption">Covariance Heatmap</figcaption><p></p>
 </figure>
 </div>
@@ -515,7 +516,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell-output cell-output-display">
 <div id="featureplots" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="aqar_report_files/figure-html/featureplots-output-1.png" width="1214" height="786" class="figure-img"></p>
+<p><img src="aqar_report_files/figure-html/featureplots-output-1.png" class="img-fluid figure-img"></p>
 <p></p><figcaption aria-hidden="true" class="figure-caption">Visualizing the effect of the 4 features on the price</figcaption><p></p>
 </figure>
 </div>
@@ -553,7 +554,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell-output cell-output-display">
 <div id="cityprice" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="aqar_report_files/figure-html/cityprice-output-1.png" width="696" height="447" class="figure-img"></p>
+<p><img src="aqar_report_files/figure-html/cityprice-output-1.png" class="img-fluid figure-img"></p>
 <p></p><figcaption aria-hidden="true" class="figure-caption">Average price in each of the major cities</figcaption><p></p>
 </figure>
 </div>
@@ -575,7 +576,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#insert price and frontage corr code</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<p><img src="aqar_report_files/figure-html/cell-9-output-1.png" width="798" height="622"></p>
+<p><img src="aqar_report_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
@@ -588,7 +589,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>ratio <span class="op">=</span> ratio.mean()</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>ratio</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="19">
+<div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>1.1189214631522322</code></pre>
 </div>
 </div>
@@ -605,11 +606,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>sns.histplot(data<span class="op">=</span>nokit, x<span class="op">=</span><span class="st">"bathrooms"</span>, kde<span class="op">=</span><span class="va">True</span>, color<span class="op">=</span><span class="st">"orange"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="20">
+<div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>&lt;AxesSubplot:xlabel='bedrooms', ylabel='Count'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="aqar_report_files/figure-html/cell-11-output-2.png" width="593" height="422"></p>
+<p><img src="aqar_report_files/figure-html/cell-11-output-2.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
