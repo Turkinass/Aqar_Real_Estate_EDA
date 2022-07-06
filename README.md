@@ -14,4 +14,4 @@ In order to further study the Aqar Dataset and come up with useful insights and 
 
 - [Aqar Dataset Used](./SA_Aqar.csv)
 - [Aqar Report (.qmd)](./aqar_report.qmd)
-- [Aqar Report (.html)](./aqar_report.html)
+- [Aqar Report (.html)](https://Turkinass.github.io/Aqar_Real_Estate_EDA/aqar_report.html)
