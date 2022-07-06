@@ -103,7 +103,7 @@ ax2 = ax1.twinx()
 l2, = ax2.plot(city_avg['size'], color='orange')
 
 plt.ylabel(plot_arabic(pd.Series("المساحة")))
-plt.legend([l1, l2], plot_arabic(pd.Series(["السعر", "المساحة"])))
+plt.legend([l1, l2], plot_arabic(pd.Series(["السعر", "المساحة"])));
 ```
 <br><br>
 ```{python}
@@ -170,6 +170,10 @@ The following questions were in mind during this part of the EDA:
 ```{python}
 #| label: corr
 #| fig-cap: Covariance Heatmap
+
+# drop the 2 extreme values
+data.drop(index=([1206, 1168]), axis=0, inplace=True)
+
 corr = data.corr()
 fig, ax = plt.subplots(figsize=(8,5))
 sns.heatmap(ax=ax, data= data.corr(), cmap="Greens");
@@ -302,7 +306,7 @@ nokit
 
 sns.histplot(data=nokit, x="bedrooms", kde=True)
 
-sns.histplot(data=nokit, x="bathrooms", kde=True, color="orange")
+sns.histplot(data=nokit, x="bathrooms", kde=True, color="orange");
 
 ```
 
@@ -322,7 +326,7 @@ import geopy
 ```
 
 ```{python}
-#| echo:false
+#| echo: false
 
 from geopy.geocoders import Nominatim
 from geopy.extra.rate_limiter import RateLimiter
@@ -333,7 +337,7 @@ from folium.plugins import FastMarkerCluster
 
 
 ```{python}
-#|eval:false
+#|eval: false
 # 0 - create a locator instance
 locator = Nominatim(user_agent="myGeocoder")
 
@@ -352,7 +356,7 @@ data[['latitude', 'longitude', 'altitude']] = pd.DataFrame(data['point'].tolist(
 
 
 ```{python}
-#|echo:false
+#|echo: false
 data = pd.read_csv("SA_Aqar_Added_Attributes.csv")
 data['part_of_city'] = data['part_of_city'].astype('category')
 ```
@@ -475,7 +479,7 @@ ax3.set_ylabel("Number of Houses")
 
 sns.countplot(ax=ax4, data=grouped_city.get_group('جدة'), x=plot_arabic(grouped_city.get_group('جدة')['part_of_city']), order=plot_arabic(parts_order))
 ax4.set_title('Jeddah')
-ax4.set_ylabel("")
+ax4.set_ylabel("");
 ```
 
 The north east is the most expensive part of every city! (Except in Riyadh it's a close second.)
@@ -514,7 +518,7 @@ ax3.set_ylabel("Mean Price")
 sns.barplot(ax=ax4, data=grouped_city.get_group('جدة'), x=plot_arabic(pd.Series(grouped_city.get_group('الرياض')['part_of_city'].cat.categories)), 
   y=pd.Series(grouped_city.get_group('جدة').groupby('part_of_city')['price'].mean()), order=plot_arabic(parts_order))
 ax4.set_title('Jeddah')
-ax4.set_ylabel("")
+ax4.set_ylabel("");
 ```
 
 The north east is the most expensive part of every city! (Except in Riyadh it's a close second.)
@@ -549,7 +553,7 @@ ax3.set_ylabel("Median Price")
 sns.barplot(ax=ax4, data=grouped_city.get_group('جدة'), x=plot_arabic(pd.Series(grouped_city.get_group('الرياض')['part_of_city'].cat.categories)), 
   y=pd.Series(grouped_city.get_group('جدة').groupby('part_of_city')['price'].median()), order=plot_arabic(parts_order))
 ax4.set_title('Jeddah')
-ax4.set_ylabel("")
+ax4.set_ylabel("");
 ```
 
 ```{python}
@@ -603,17 +607,9 @@ ax3.set_ylabel("Avg. Price")
 sns.barplot(ax=ax4, data=grouped_city.get_group('جدة'), x=plot_arabic(pd.Series(grouped_city.get_group('الرياض')['part_of_city'].cat.categories)), 
   y=pd.Series(grouped_city.get_group('جدة').groupby('part_of_city')['price'].median()), order=plot_arabic(parts_order))
 ax4.set_title('Jeddah')
-ax4.set_ylabel("")
+ax4.set_ylabel("");
 
 ```
-
-```{python}
-#| echo: false
-# remove all the changes I made to the dataset
-data = pd.read_csv("SA_Aqar.csv")
-
-```
-
 
 
 

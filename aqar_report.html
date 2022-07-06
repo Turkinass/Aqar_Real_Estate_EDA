@@ -259,7 +259,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1 data-number="2"><span class="header-section-number">2</span> EDA Process</h1>
 <section id="turki-yousef" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="turki-yousef"><span class="header-section-number">2.1</span> Turki &amp; Yousef</h2>
-<div id="line-chart" class="cell" data-execution_count="2">
+<div class="cell" data-execution_count="2">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>d_yousef <span class="op">=</span> data[data[<span class="st">'size'</span>] <span class="op">&lt;</span> <span class="dv">80000</span>]</span>
@@ -272,63 +272,64 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>l2, <span class="op">=</span> ax2.plot(city_avg[<span class="st">'size'</span>], color<span class="op">=</span><span class="st">'orange'</span>)</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>plt.ylabel(plot_arabic(pd.Series(<span class="st">"المساحة"</span>)))</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>plt.legend([l1, l2], plot_arabic(pd.Series([<span class="st">"السعر"</span>, <span class="st">"المساحة"</span>])))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>plt.legend([l1, l2], plot_arabic(pd.Series([<span class="st">"السعر"</span>, <span class="st">"المساحة"</span>])))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div id="line-chart-1" class="cell-output cell-output-display" data-execution_count="2">
-<pre><code>&lt;matplotlib.legend.Legend at 0x7fd439c16cd0&gt;</code></pre>
-<p>Average price and size per city</p>
-</div>
 <div class="cell-output cell-output-display">
-<p><img src="aqar_report_files/figure-html/line-chart-output-2.png" id="line-chart-2" class="img-fluid"></p>
+<div id="line-chart" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="aqar_report_files/figure-html/line-chart-output-1.png" width="672" height="405" class="figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Average price and size per city</figcaption><p></p>
+</figure>
+</div>
 </div>
 </div>
 <p><br><br></p>
 <div class="cell" data-execution_count="3">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython <span class="im">import</span> display</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> d_yousef.district.value_counts()</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>repeated <span class="op">=</span> <span class="bu">set</span>(s[s <span class="op">&gt;</span> <span class="dv">30</span>].index.values)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>d_district <span class="op">=</span> d_yousef[d_yousef.district.isin(repeated)]</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">'''</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">avg_size_dist = d_district.groupby(['city', 'district'])[['size', 'price']].mean().reset_index().sort_values('price')</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">riyadh = avg_size_dist.query("city == 'الرياض' &amp; size &lt; 600")</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">jeddah = avg_size_dist.query("city == 'جدة' &amp; price &lt; 160000 &amp; size &lt; 600")</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">plt.figure(figsize=(10,10))</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># RIYADH</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">x = np.arange(len(riyadh))</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">ax1 = plt.subplot(2,2,1)</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">w = 0.3</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co">plt.title(plot_arabic(pd.Series('الرياض')))</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co">plt.xticks(x + w /2, plot_arabic(riyadh['district']), rotation='60')</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co">P =ax1.bar(x, riyadh['price'], width=w, color='r', align='center')</span></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co">plt.ylabel(plot_arabic(pd.Series("السعر")))</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co">ax2 = ax1.twinx()</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co">S =ax2.bar(x + w, riyadh['size'], width=w,color='y',align='center')</span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="co">plt.legend([P, S], plot_arabic(pd.Series(['متوسط السعر', 'متوسط المساحة'])))</span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="co"># JEDDAH</span></span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="co">x = np.arange(len(jeddah))</span></span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="co">ax1 = plt.subplot(2,2,2)</span></span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="co">w = 0.3</span></span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="co">plt.title(plot_arabic(pd.Series('جدة')))</span></span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="co">plt.xticks(x + w /2, plot_arabic(jeddah['district']), rotation='60')</span></span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="co">P =ax1.bar(x, jeddah['price'], width=w, color='r', align='center')</span></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="co">ax2 = ax1.twinx()</span></span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="co">S =ax2.bar(x + w, jeddah['size'], width=w,color='y',align='center')</span></span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="co">plt.ylabel(plot_arabic(pd.Series("المساحة")))</span></span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="co">plt.legend([P, S], plot_arabic(pd.Series(['متوسط السعر', 'متوسط المساحة'])))</span></span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="co">plt.tight_layout()</span></span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="co">plt.show()</span></span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="co">'''</span></span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>display.Image(<span class="st">"./side-by-side-bar.png"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython <span class="im">import</span> display</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> d_yousef.district.value_counts()</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>repeated <span class="op">=</span> <span class="bu">set</span>(s[s <span class="op">&gt;</span> <span class="dv">30</span>].index.values)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>d_district <span class="op">=</span> d_yousef[d_yousef.district.isin(repeated)]</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">'''</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">avg_size_dist = d_district.groupby(['city', 'district'])[['size', 'price']].mean().reset_index().sort_values('price')</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">riyadh = avg_size_dist.query("city == 'الرياض' &amp; size &lt; 600")</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">jeddah = avg_size_dist.query("city == 'جدة' &amp; price &lt; 160000 &amp; size &lt; 600")</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">plt.figure(figsize=(10,10))</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># RIYADH</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">x = np.arange(len(riyadh))</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">ax1 = plt.subplot(2,2,1)</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">w = 0.3</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">plt.title(plot_arabic(pd.Series('الرياض')))</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co">plt.xticks(x + w /2, plot_arabic(riyadh['district']), rotation='60')</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co">P =ax1.bar(x, riyadh['price'], width=w, color='r', align='center')</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co">plt.ylabel(plot_arabic(pd.Series("السعر")))</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co">ax2 = ax1.twinx()</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co">S =ax2.bar(x + w, riyadh['size'], width=w,color='y',align='center')</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co">plt.legend([P, S], plot_arabic(pd.Series(['متوسط السعر', 'متوسط المساحة'])))</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="co"># JEDDAH</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="co">x = np.arange(len(jeddah))</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="co">ax1 = plt.subplot(2,2,2)</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="co">w = 0.3</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="co">plt.title(plot_arabic(pd.Series('جدة')))</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="co">plt.xticks(x + w /2, plot_arabic(jeddah['district']), rotation='60')</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="co">P =ax1.bar(x, jeddah['price'], width=w, color='r', align='center')</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="co">ax2 = ax1.twinx()</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="co">S =ax2.bar(x + w, jeddah['size'], width=w,color='y',align='center')</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="co">plt.ylabel(plot_arabic(pd.Series("المساحة")))</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="co">plt.legend([P, S], plot_arabic(pd.Series(['متوسط السعر', 'متوسط المساحة'])))</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="co">plt.tight_layout()</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a><span class="co">plt.show()</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a><span class="co">'''</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>display.Image(<span class="st">"./side-by-side-bar.png"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <div id="side-by-side-bar" class="quarto-figure quarto-figure-center anchored">
@@ -343,7 +344,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell" data-execution_count="4">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>d_district.groupby([<span class="st">'city'</span>,<span class="st">'district'</span>])[<span class="st">'price'</span>].mean().sort_values(ascending<span class="op">=</span><span class="va">False</span>).to_frame().reset_index().head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>d_district.groupby([<span class="st">'city'</span>,<span class="st">'district'</span>])[<span class="st">'price'</span>].mean().sort_values(ascending<span class="op">=</span><span class="va">False</span>).to_frame().reset_index().head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="table" class="cell-output cell-output-display" data-execution_count="4">
 
@@ -434,14 +435,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell" data-execution_count="5">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>corr <span class="op">=</span> data.corr()</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">5</span>))</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>sns.heatmap(ax<span class="op">=</span>ax, data<span class="op">=</span> data.corr(), cmap<span class="op">=</span><span class="st">"Greens"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># drop the 2 extreme values</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>data.drop(index<span class="op">=</span>([<span class="dv">1206</span>, <span class="dv">1168</span>]), axis<span class="op">=</span><span class="dv">0</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>corr <span class="op">=</span> data.corr()</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">5</span>))</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>sns.heatmap(ax<span class="op">=</span>ax, data<span class="op">=</span> data.corr(), cmap<span class="op">=</span><span class="st">"Greens"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="corr" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="aqar_report_files/figure-html/corr-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="aqar_report_files/figure-html/corr-output-1.png" width="683" height="484" class="figure-img"></p>
 <p></p><figcaption aria-hidden="true" class="figure-caption">Covariance Heatmap</figcaption><p></p>
 </figure>
 </div>
@@ -459,64 +463,64 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell" data-execution_count="6">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># see how great the above 4 feature affect the price</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># creating the canvas</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>fig, ((ax1,ax2), (ax3,ax4)) <span class="op">=</span> plt.subplots(<span class="dv">2</span>,<span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="dv">10</span>))</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># plotting ax1 data: `driver_room`</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>ax1 <span class="op">=</span> sns.barplot(ax<span class="op">=</span>ax1, y<span class="op">=</span>data[<span class="st">"price"</span>], x<span class="op">=</span>data[<span class="st">"driver_room"</span>] ,data<span class="op">=</span>data)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># configure the plot</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>ax1.set_title(<span class="st">"Effect of Driver's room on price"</span>)</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>ax1.set_xlabel(<span class="st">""</span>)</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [item.get_text() <span class="cf">for</span> item <span class="kw">in</span> ax1.get_xticklabels()]</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>labels[<span class="dv">0</span>] <span class="op">=</span> <span class="st">"Without Driver Room"</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>labels[<span class="dv">1</span>] <span class="op">=</span> <span class="st">"With Driver Room"</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>ax1.set_xticklabels(labels)</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>ax1.set_ylabel(<span class="st">"Price"</span>)</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co"># plotting ax2 data: `ac`</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> sns.barplot(ax<span class="op">=</span>ax2, y<span class="op">=</span>data[<span class="st">"price"</span>], x<span class="op">=</span>data[<span class="st">"ac"</span>] ,data<span class="op">=</span>data)</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co"># configure the plot</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>ax2.set_title(<span class="st">"Effect of AC on price"</span>)</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>ax2.set_xlabel(<span class="st">""</span>)</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [item.get_text() <span class="cf">for</span> item <span class="kw">in</span> ax2.get_xticklabels()]</span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>labels[<span class="dv">0</span>] <span class="op">=</span> <span class="st">"Without AC"</span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>labels[<span class="dv">1</span>] <span class="op">=</span> <span class="st">"With AC"</span></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>ax2.set_xticklabels(labels)</span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>ax2.set_ylabel(<span class="st">"Price"</span>)</span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="co"># plotting ax3 data: `pool`</span></span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>ax3 <span class="op">=</span> sns.barplot(ax<span class="op">=</span>ax3, y<span class="op">=</span>data[<span class="st">"price"</span>], x<span class="op">=</span>data[<span class="st">"pool"</span>] ,data<span class="op">=</span>data)</span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="co"># configure the plot</span></span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>ax3.set_title(<span class="st">"Effect of Pool on price"</span>)</span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>ax3.set_xlabel(<span class="st">""</span>)</span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [item.get_text() <span class="cf">for</span> item <span class="kw">in</span> ax3.get_xticklabels()]</span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>labels[<span class="dv">0</span>] <span class="op">=</span> <span class="st">"Without Pool"</span></span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>labels[<span class="dv">1</span>] <span class="op">=</span> <span class="st">"With Pool"</span></span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>ax3.set_xticklabels(labels)</span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>ax3.set_ylabel(<span class="st">"Price"</span>)</span>
-<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a><span class="co"># plotting ax4 data: `basement`</span></span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>ax4 <span class="op">=</span> sns.barplot(ax<span class="op">=</span>ax4,y<span class="op">=</span>data[<span class="st">"price"</span>], x<span class="op">=</span>data[<span class="st">"basement"</span>] ,data<span class="op">=</span>data)</span>
-<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a><span class="co"># configure the plot</span></span>
-<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>ax4.set_title(<span class="st">"Effect of Basement on price"</span>)</span>
-<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>ax4.set_xlabel(<span class="st">""</span>)</span>
-<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [item.get_text() <span class="cf">for</span> item <span class="kw">in</span> ax4.get_xticklabels()]</span>
-<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>labels[<span class="dv">0</span>] <span class="op">=</span> <span class="st">"Without Basement"</span></span>
-<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>labels[<span class="dv">1</span>] <span class="op">=</span> <span class="st">"With Basement"</span></span>
-<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>ax4.set_xticklabels(labels)</span>
-<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>ax4.set_ylabel(<span class="st">"Price"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># see how great the above 4 feature affect the price</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># creating the canvas</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>fig, ((ax1,ax2), (ax3,ax4)) <span class="op">=</span> plt.subplots(<span class="dv">2</span>,<span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="dv">10</span>))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># plotting ax1 data: `driver_room`</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>ax1 <span class="op">=</span> sns.barplot(ax<span class="op">=</span>ax1, y<span class="op">=</span>data[<span class="st">"price"</span>], x<span class="op">=</span>data[<span class="st">"driver_room"</span>] ,data<span class="op">=</span>data)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># configure the plot</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>ax1.set_title(<span class="st">"Effect of Driver's room on price"</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>ax1.set_xlabel(<span class="st">""</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [item.get_text() <span class="cf">for</span> item <span class="kw">in</span> ax1.get_xticklabels()]</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>labels[<span class="dv">0</span>] <span class="op">=</span> <span class="st">"Without Driver Room"</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>labels[<span class="dv">1</span>] <span class="op">=</span> <span class="st">"With Driver Room"</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>ax1.set_xticklabels(labels)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>ax1.set_ylabel(<span class="st">"Price"</span>)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co"># plotting ax2 data: `ac`</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> sns.barplot(ax<span class="op">=</span>ax2, y<span class="op">=</span>data[<span class="st">"price"</span>], x<span class="op">=</span>data[<span class="st">"ac"</span>] ,data<span class="op">=</span>data)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co"># configure the plot</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>ax2.set_title(<span class="st">"Effect of AC on price"</span>)</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>ax2.set_xlabel(<span class="st">""</span>)</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [item.get_text() <span class="cf">for</span> item <span class="kw">in</span> ax2.get_xticklabels()]</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>labels[<span class="dv">0</span>] <span class="op">=</span> <span class="st">"Without AC"</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>labels[<span class="dv">1</span>] <span class="op">=</span> <span class="st">"With AC"</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>ax2.set_xticklabels(labels)</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>ax2.set_ylabel(<span class="st">"Price"</span>)</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="co"># plotting ax3 data: `pool`</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>ax3 <span class="op">=</span> sns.barplot(ax<span class="op">=</span>ax3, y<span class="op">=</span>data[<span class="st">"price"</span>], x<span class="op">=</span>data[<span class="st">"pool"</span>] ,data<span class="op">=</span>data)</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="co"># configure the plot</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>ax3.set_title(<span class="st">"Effect of Pool on price"</span>)</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>ax3.set_xlabel(<span class="st">""</span>)</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [item.get_text() <span class="cf">for</span> item <span class="kw">in</span> ax3.get_xticklabels()]</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>labels[<span class="dv">0</span>] <span class="op">=</span> <span class="st">"Without Pool"</span></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>labels[<span class="dv">1</span>] <span class="op">=</span> <span class="st">"With Pool"</span></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>ax3.set_xticklabels(labels)</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>ax3.set_ylabel(<span class="st">"Price"</span>)</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a><span class="co"># plotting ax4 data: `basement`</span></span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>ax4 <span class="op">=</span> sns.barplot(ax<span class="op">=</span>ax4,y<span class="op">=</span>data[<span class="st">"price"</span>], x<span class="op">=</span>data[<span class="st">"basement"</span>] ,data<span class="op">=</span>data)</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a><span class="co"># configure the plot</span></span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>ax4.set_title(<span class="st">"Effect of Basement on price"</span>)</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>ax4.set_xlabel(<span class="st">""</span>)</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [item.get_text() <span class="cf">for</span> item <span class="kw">in</span> ax4.get_xticklabels()]</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>labels[<span class="dv">0</span>] <span class="op">=</span> <span class="st">"Without Basement"</span></span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>labels[<span class="dv">1</span>] <span class="op">=</span> <span class="st">"With Basement"</span></span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>ax4.set_xticklabels(labels)</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>ax4.set_ylabel(<span class="st">"Price"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="featureplots" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="aqar_report_files/figure-html/featureplots-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="aqar_report_files/figure-html/featureplots-output-1.png" width="1214" height="786" class="figure-img"></p>
 <p></p><figcaption aria-hidden="true" class="figure-caption">Visualizing the effect of the 4 features on the price</figcaption><p></p>
 </figure>
 </div>
@@ -539,22 +543,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell" data-execution_count="7">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find the price range in the 4 major cities</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># create the canva</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">5</span>))</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the data</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>sns.barplot(ax<span class="op">=</span>ax ,y <span class="op">=</span> <span class="st">"price"</span>, x<span class="op">=</span>plot_arabic(data[<span class="st">"city"</span>]), data<span class="op">=</span>data)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># configure the plot    </span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>ax.set_title(plot_arabic(pd.Series(<span class="st">"متوسط أسعار الأجار حسب المدينة"</span>)))</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(plot_arabic(pd.Series(<span class="st">"الأسعار"</span>)))</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(plot_arabic(pd.Series(<span class="st">"المدن"</span>)))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find the price range in the 4 major cities</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># create the canva</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">5</span>))</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the data</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>sns.barplot(ax<span class="op">=</span>ax ,y <span class="op">=</span> <span class="st">"price"</span>, x<span class="op">=</span>plot_arabic(data[<span class="st">"city"</span>]), data<span class="op">=</span>data)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># configure the plot    </span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>ax.set_title(plot_arabic(pd.Series(<span class="st">"متوسط أسعار الأجار حسب المدينة"</span>)))</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(plot_arabic(pd.Series(<span class="st">"الأسعار"</span>)))</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(plot_arabic(pd.Series(<span class="st">"المدن"</span>)))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="cityprice" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="aqar_report_files/figure-html/cityprice-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="aqar_report_files/figure-html/cityprice-output-1.png" width="696" height="447" class="figure-img"></p>
 <p></p><figcaption aria-hidden="true" class="figure-caption">Average price in each of the major cities</figcaption><p></p>
 </figure>
 </div>
@@ -569,14 +573,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell" data-execution_count="8">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">8</span>))</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>plt.hist(x<span class="op">=</span> plot_arabic(data[<span class="st">'front'</span>]) , bins <span class="op">=</span><span class="dv">20</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#insert price and frontage corr code</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">8</span>))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>plt.hist(x<span class="op">=</span> plot_arabic(data[<span class="st">'front'</span>]) , bins <span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#insert price and frontage corr code</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<p><img src="aqar_report_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
+<p><img src="aqar_report_files/figure-html/cell-9-output-1.png" width="798" height="622"></p>
 </div>
 </div>
 </section>
@@ -585,12 +589,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell" data-execution_count="9">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ratio <span class="op">=</span> data[[<span class="st">'bedrooms'</span>, <span class="st">'bathrooms'</span>]].<span class="bu">apply</span>(<span class="kw">lambda</span> data: (data[<span class="st">'bedrooms'</span>]<span class="op">/</span>data[<span class="st">'bathrooms'</span>]), axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>ratio <span class="op">=</span> ratio.mean()</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>ratio</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ratio <span class="op">=</span> data[[<span class="st">'bedrooms'</span>, <span class="st">'bathrooms'</span>]].<span class="bu">apply</span>(<span class="kw">lambda</span> data: (data[<span class="st">'bedrooms'</span>]<span class="op">/</span>data[<span class="st">'bathrooms'</span>]), axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>ratio <span class="op">=</span> ratio.mean()</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>ratio</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="9">
-<pre><code>1.1189214631522322</code></pre>
+<pre><code>1.118985468245425</code></pre>
 </div>
 </div>
 </section>
@@ -599,24 +603,223 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell" data-execution_count="10">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>nokit <span class="op">=</span> data.groupby([<span class="st">'kitchen'</span>]).get_group(<span class="dv">0</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>nokit</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>sns.histplot(data<span class="op">=</span>nokit, x<span class="op">=</span><span class="st">"bedrooms"</span>, kde<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>sns.histplot(data<span class="op">=</span>nokit, x<span class="op">=</span><span class="st">"bathrooms"</span>, kde<span class="op">=</span><span class="va">True</span>, color<span class="op">=</span><span class="st">"orange"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>nokit <span class="op">=</span> data.groupby([<span class="st">'kitchen'</span>]).get_group(<span class="dv">0</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>nokit</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>sns.histplot(data<span class="op">=</span>nokit, x<span class="op">=</span><span class="st">"bedrooms"</span>, kde<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>sns.histplot(data<span class="op">=</span>nokit, x<span class="op">=</span><span class="st">"bathrooms"</span>, kde<span class="op">=</span><span class="va">True</span>, color<span class="op">=</span><span class="st">"orange"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="10">
-<pre><code>&lt;AxesSubplot:xlabel='bedrooms', ylabel='Count'&gt;</code></pre>
-</div>
 <div class="cell-output cell-output-display">
-<p><img src="aqar_report_files/figure-html/cell-11-output-2.png" class="img-fluid"></p>
+<p><img src="aqar_report_files/figure-html/cell-11-output-1.png" width="593" height="422"></p>
 </div>
 </div>
 </section>
 </section>
 <section id="mohammed" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="mohammed"><span class="header-section-number">2.4</span> Mohammed</h2>
+<p>The location of a house may be the most significant factor in determining the price, we don’t have that in the dataset. Perhaps we can create this attribute.</p>
+<div class="cell" data-execution_count="11">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'district'</span>].head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>0         حي العارض 
+1       حي القادسية 
+2       حي القادسية 
+3       حي المعيزلة 
+4         حي العليا 
+5       حي الازدهار 
+6        حي المهدية 
+7         حي العارض 
+8          حي الحزم 
+9         حي العليا 
+Name: district, dtype: object</code></pre>
+</div>
+</div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># libraries to handel spacial data</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 0 - create a locator instance</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>locator <span class="op">=</span> Nominatim(user_agent<span class="op">=</span><span class="st">"myGeocoder"</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 - conveneint function to delay between geocoding calls</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>geocode <span class="op">=</span> RateLimiter(locator.geocode, min_delay_seconds<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 2- - create location column</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'location'</span>] <span class="op">=</span> data[<span class="st">'district'</span>].<span class="bu">apply</span>(geocode)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 - create longitude, laatitude and altitude from location column (returns tuple)</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'point'</span>] <span class="op">=</span> data[<span class="st">'location'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> loc: <span class="bu">tuple</span>(loc.point) <span class="cf">if</span> loc <span class="cf">else</span> <span class="va">None</span>)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 - split point column into latitude, longitude and altitude columns</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>data[[<span class="st">'latitude'</span>, <span class="st">'longitude'</span>, <span class="st">'altitude'</span>]] <span class="op">=</span> pd.DataFrame(data[<span class="st">'point'</span>].tolist(), index<span class="op">=</span>data.index)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<p>Let’s check the new attributes we created</p>
+<div class="cell" data-execution_count="16">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>data[[<span class="st">'latitude'</span>, <span class="st">'longitude'</span>, <span class="st">'city'</span>]].head() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="15">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>latitude</th>
+      <th>longitude</th>
+      <th>city</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>24.789505</td>
+      <td>46.811889</td>
+      <td>الرياض</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>32.845004</td>
+      <td>13.082073</td>
+      <td>الرياض</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>32.845004</td>
+      <td>13.082073</td>
+      <td>الرياض</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>الرياض</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>25.359219</td>
+      <td>49.596119</td>
+      <td>الرياض</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="17">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'latitude'</span>].isna().<span class="bu">sum</span>() <span class="op">/</span> <span class="bu">len</span>(data[<span class="st">'latitude'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="16">
+<pre><code>0.11672942442173212</code></pre>
+</div>
+</div>
+<p>We need to process the data to turn it longitude and latitude (and city) into which part of the city a house belongs.</p>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> convert_coord(latitude: pd.Series, longitude: pd.Series, cities: pd.Series):</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">""" given a latitude and longitude and cities, returns a single </span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co">        attribute that encodes which part of the city a (latitude, longitude) </span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co">        pair belongs to (e.g., north_east)"""</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    middles <span class="op">=</span> middle_of_cities(latitude, longitude, cities)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    part_of_city <span class="op">=</span> assign_location(latitude, longitude, cities, middles)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> part_of_city</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> middle_of_cities(latitude: pd.Series, longitude: pd.Series, cities: pd.Series):</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""returns a dictionary containing four tuples where each tuple is </span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="co">        (latitude, longitude) of the middle of one of the cities """</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">#store the produced middle values </span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    middles <span class="op">=</span> {}</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> city <span class="kw">in</span> cities.unique():</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>        indicies <span class="op">=</span> cities <span class="op">==</span> city</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>        relevent_city <span class="op">=</span> cities.loc[indicies]</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>        relevent_latitude <span class="op">=</span> latitude.loc[indicies]</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>        relevent_longitude <span class="op">=</span> longitude.loc[indicies]</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>        <span class="co"># consider taking the trimmed median instead</span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>        middle_latitude <span class="op">=</span> relevent_latitude.median()</span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>        middle_longitude <span class="op">=</span> relevent_longitude.median()</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>        middles[city] <span class="op">=</span> (middle_latitude, middle_longitude)</span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> middles</span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> assign_location(latitude: pd.Series, longitude: pd.Series, cities: pd.Series, middle_of_cities: <span class="bu">dict</span>):</span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>    <span class="co">""" creates a series of the same length as the original dataframe assigning each instance one of</span></span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a><span class="co">        north_east, north_west, south_east, south_west depending on where the latitude and longitude lie</span></span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a><span class="co">        relative to the relevent middle of city"""</span></span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>    location_4 <span class="op">=</span> []</span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(latitude)):</span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> latitude[i] <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>            location_4.append(<span class="va">None</span>)</span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>        relevent_city_middle <span class="op">=</span> middle_of_cities[cities[i]]</span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> latitude[i] <span class="op">&gt;</span> relevent_city_middle[<span class="dv">0</span>]:</span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a>            <span class="co"># north</span></span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> longitude[i] <span class="op">&gt;</span> relevent_city_middle[<span class="dv">1</span>]:</span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a>                <span class="co"># east</span></span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a>                location_4.append(<span class="st">"شمال شرق"</span>)</span>
+<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a>                location_4.append(<span class="st">"شمال غرب"</span>)</span>
+<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>            <span class="co"># south</span></span>
+<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> longitude[i] <span class="op">&gt;</span> relevent_city_middle[<span class="dv">1</span>]:</span>
+<span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a>                <span class="co"># east</span></span>
+<span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a>                location_4.append(<span class="st">"جنوب شرق"</span>)</span>
+<span id="cb18-59"><a href="#cb18-59" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb18-60"><a href="#cb18-60" aria-hidden="true" tabindex="-1"></a>                location_4.append(<span class="st">"جنوب غرب"</span>)</span>
+<span id="cb18-61"><a href="#cb18-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-62"><a href="#cb18-62" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.Series(location_4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>data[<span class="st">'part_of_city'</span>] <span class="op">=</span> convert_coord(data.latitude, data.longitude, data.city)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>data[[<span class="st">'city'</span>, <span class="st">'part_of_city'</span>]].head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<p>Let’s visualize some basic statistics using the new attribute</p>
+<div class="cell" data-execution_count="20">
+<div class="cell-output cell-output-display">
+<p><img src="aqar_report_files/figure-html/cell-21-output-1.png" width="965" height="781"></p>
+</div>
+</div>
+<p>The north east is the most expensive part of every city! (Except in Riyadh it’s a close second.)</p>
+<div class="cell" data-execution_count="21">
+<div class="cell-output cell-output-display">
+<p><img src="aqar_report_files/figure-html/cell-22-output-1.png" width="990" height="781"></p>
+</div>
+</div>
+<p>The north east is the most expensive part of every city! (Except in Riyadh it’s a close second.)</p>
+<div class="cell" data-execution_count="22">
+<div class="cell-output cell-output-display">
+<p><img src="aqar_report_files/figure-html/cell-23-output-1.png" width="982" height="781"></p>
+</div>
+</div>
+<p>How would the plots look if we chose the trimmed median instead of the median?</p>
+<div class="cell" data-execution_count="24">
+<div class="cell-output cell-output-display">
+<p><img src="aqar_report_files/figure-html/cell-25-output-1.png" width="982" height="781"></p>
+</div>
+</div>
 </section>
 </section>
 <section id="overall-conclusion" class="level1" data-number="3">
