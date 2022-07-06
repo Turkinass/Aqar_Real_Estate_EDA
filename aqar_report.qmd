@@ -308,6 +308,315 @@ sns.histplot(data=nokit, x="bathrooms", kde=True, color="orange")
 
 ## Mohammed
 
+The location of a house may be the most significant factor in determining the price, we don't have that in the dataset. Perhaps we can create this attribute.
+
+```{python}
+
+data['district'].head(10)
+```
+
+```{python}
+# libraries to handel spacial data
+import geopandas as gpd
+import geopy
+```
+
+```{python}
+#| echo:false
+
+from geopy.geocoders import Nominatim
+from geopy.extra.rate_limiter import RateLimiter
+import folium
+from folium.plugins import FastMarkerCluster
+
+```
+
+
+```{python}
+#|eval:false
+# 0 - create a locator instance
+locator = Nominatim(user_agent="myGeocoder")
+
+# 1 - conveneint function to delay between geocoding calls
+geocode = RateLimiter(locator.geocode, min_delay_seconds=0.1)
+
+# 2- - create location column
+data['location'] = data['district'].apply(geocode)
+
+# 3 - create longitude, laatitude and altitude from location column (returns tuple)
+data['point'] = data['location'].apply(lambda loc: tuple(loc.point) if loc else None)
+
+# 4 - split point column into latitude, longitude and altitude columns
+data[['latitude', 'longitude', 'altitude']] = pd.DataFrame(data['point'].tolist(), index=data.index)
+```
+
+
+```{python}
+#|echo:false
+data = pd.read_csv("SA_Aqar_Added_Attributes.csv")
+data['part_of_city'] = data['part_of_city'].astype('category')
+```
+
+Let's check the new attributes we created
+
+```{python}
+#|echo: true
+data[['latitude', 'longitude', 'city']].head() 
+```
+
+
+```{python}
+data['latitude'].isna().sum() / len(data['latitude'])
+```
+
+
+We need to process the data to turn it longitude and latitude (and city) into which part of the city a house belongs.
+
+```{python}
+
+
+def convert_coord(latitude: pd.Series, longitude: pd.Series, cities: pd.Series):
+    """ given a latitude and longitude and cities, returns a single 
+        attribute that encodes which part of the city a (latitude, longitude) 
+        pair belongs to (e.g., north_east)"""
+
+    middles = middle_of_cities(latitude, longitude, cities)
+    part_of_city = assign_location(latitude, longitude, cities, middles)
+
+    return part_of_city
+
+
+def middle_of_cities(latitude: pd.Series, longitude: pd.Series, cities: pd.Series):
+    """returns a dictionary containing four tuples where each tuple is 
+        (latitude, longitude) of the middle of one of the cities """
+
+    #store the produced middle values 
+    middles = {}
+
+    for city in cities.unique():
+        indicies = cities == city
+        relevent_city = cities.loc[indicies]
+        relevent_latitude = latitude.loc[indicies]
+        relevent_longitude = longitude.loc[indicies]
+
+        # consider taking the trimmed median instead
+        middle_latitude = relevent_latitude.median()
+        middle_longitude = relevent_longitude.median()
+
+        middles[city] = (middle_latitude, middle_longitude)
+
+    return middles
+
+def assign_location(latitude: pd.Series, longitude: pd.Series, cities: pd.Series, middle_of_cities: dict):
+    """ creates a series of the same length as the original dataframe assigning each instance one of
+        north_east, north_west, south_east, south_west depending on where the latitude and longitude lie
+        relative to the relevent middle of city"""
+
+    location_4 = []
+   
+    for i in range(len(latitude)):
+        if latitude[i] is None:
+            location_4.append(None)
+            continue
+
+        relevent_city_middle = middle_of_cities[cities[i]]
+
+        if latitude[i] > relevent_city_middle[0]:
+            # north
+            if longitude[i] > relevent_city_middle[1]:
+                # east
+                location_4.append("شمال شرق")
+            else:
+                location_4.append("شمال غرب")
+        else:
+            # south
+            if longitude[i] > relevent_city_middle[1]:
+                # east
+                location_4.append("جنوب شرق")
+            else:
+                location_4.append("جنوب غرب")
+
+    return pd.Series(location_4)
+```
+
+
+```{python}
+#|echo: true
+#|eval: false
+data['part_of_city'] = convert_coord(data.latitude, data.longitude, data.city)
+data[['city', 'part_of_city']].head(10)
+```
+
+
+Let's visualize some basic statistics using the new attribute
+
+```{python}
+#|echo: false
+# Bar plot
+
+grouped_city = data.groupby('city')
+parts_order = pd.Series(['شمال شرق', 'شمال غرب', 'جنوب شرق', 'جنوب غرب'])
+
+fig, ((ax1,ax2), (ax3,ax4)) = plt.subplots(2,2, figsize=(12,9))
+
+plt.suptitle("The Number of Houses in Each Side of The Cities")
+
+sns.countplot(ax=ax1, data=grouped_city.get_group('الرياض'), x=plot_arabic(grouped_city.get_group('الرياض')['part_of_city']), order=plot_arabic(parts_order))
+ax1.set_title("Riyadh")
+ax1.set_ylabel("Number of Houses")
+
+sns.countplot(ax=ax2, data=grouped_city.get_group('الخبر'), x=plot_arabic(grouped_city.get_group('الخبر')['part_of_city']), order=plot_arabic(parts_order))
+ax2.set_title('Khubar')
+ax2.set_ylabel("")
+
+sns.countplot(ax=ax3, data=grouped_city.get_group('الدمام'), x=plot_arabic(grouped_city.get_group('الدمام')['part_of_city']), order=plot_arabic(parts_order))
+ax3.set_title('Dammam')
+ax3.set_ylabel("Number of Houses")
+
+sns.countplot(ax=ax4, data=grouped_city.get_group('جدة'), x=plot_arabic(grouped_city.get_group('جدة')['part_of_city']), order=plot_arabic(parts_order))
+ax4.set_title('Jeddah')
+ax4.set_ylabel("")
+```
+
+The north east is the most expensive part of every city! (Except in Riyadh it's a close second.)
+
+```{python}
+#| echo: false
+# Visualizing the mean price for each city and part within it
+
+grouped_city = data.groupby('city')
+# grouped_city.get_group('الرياض')
+# grouped_city.get_group('الخبر')
+# grouped_city.get_group('الدمام')
+# grouped_city.get_group('جدة')
+parts_order = pd.Series(['شمال شرق', 'شمال غرب', 'جنوب شرق', 'جنوب غرب'])
+
+fig, ((ax1,ax2), (ax3,ax4)) = plt.subplots(2,2, figsize=(12,9))
+
+plt.suptitle("The Median Price: Excluding Outliers (Top and Bottom %5)")
+
+
+sns.barplot(ax=ax1, data=grouped_city.get_group('الرياض'), x=plot_arabic(pd.Series(grouped_city.get_group('الرياض')['part_of_city'].cat.categories)), 
+  y=pd.Series(grouped_city.get_group('الرياض').groupby('part_of_city')['price'].mean()), order=plot_arabic(parts_order))
+ax1.set_title("Riyadh")
+ax1.set_ylabel("Mean Price")
+
+sns.barplot(ax=ax2, data=grouped_city.get_group('الخبر'), x=plot_arabic(pd.Series(grouped_city.get_group('الرياض')['part_of_city'].cat.categories)), 
+  y=pd.Series(grouped_city.get_group('الخبر').groupby('part_of_city')['price'].mean()), order=plot_arabic(parts_order))
+ax2.set_title('Khubar')
+ax2.set_ylabel("")
+
+sns.barplot(ax=ax3, data=grouped_city.get_group('الدمام'), x=plot_arabic(pd.Series(grouped_city.get_group('الرياض')['part_of_city'].cat.categories)), 
+  y=pd.Series(grouped_city.get_group('الدمام').groupby('part_of_city')['price'].mean()), order=plot_arabic(parts_order))
+ax3.set_title('Dammam')
+ax3.set_ylabel("Mean Price")
+
+sns.barplot(ax=ax4, data=grouped_city.get_group('جدة'), x=plot_arabic(pd.Series(grouped_city.get_group('الرياض')['part_of_city'].cat.categories)), 
+  y=pd.Series(grouped_city.get_group('جدة').groupby('part_of_city')['price'].mean()), order=plot_arabic(parts_order))
+ax4.set_title('Jeddah')
+ax4.set_ylabel("")
+```
+
+The north east is the most expensive part of every city! (Except in Riyadh it's a close second.)
+```{python}
+#|echo: false
+
+# Visualizing the median price for each city and part within it
+
+grouped_city = data.groupby('city')
+
+parts_order = pd.Series(['شمال شرق', 'شمال غرب', 'جنوب شرق', 'جنوب غرب'])
+
+fig, ((ax1,ax2), (ax3,ax4)) = plt.subplots(2,2, figsize=(12,9))
+
+plt.suptitle("The Median Price: Complete Dataset")
+
+sns.barplot(ax=ax1, data=grouped_city.get_group('الرياض'), x=plot_arabic(pd.Series(grouped_city.get_group('الرياض')['part_of_city'].cat.categories)), 
+  y=pd.Series(grouped_city.get_group('الرياض').groupby('part_of_city')['price'].median()), order=plot_arabic(parts_order))
+ax1.set_title("Riyadh")
+ax1.set_ylabel("Median Price")
+
+sns.barplot(ax=ax2, data=grouped_city.get_group('الخبر'), x=plot_arabic(pd.Series(grouped_city.get_group('الرياض')['part_of_city'].cat.categories)), 
+  y=pd.Series(grouped_city.get_group('الخبر').groupby('part_of_city')['price'].median()), order=plot_arabic(parts_order))
+ax2.set_title('Khubar')
+ax2.set_ylabel("")
+
+sns.barplot(ax=ax3, data=grouped_city.get_group('الدمام'), x=plot_arabic(pd.Series(grouped_city.get_group('الرياض')['part_of_city'].cat.categories)), 
+  y=pd.Series(grouped_city.get_group('الدمام').groupby('part_of_city')['price'].median()), order=plot_arabic(parts_order))
+ax3.set_title('Dammam')
+ax3.set_ylabel("Median Price")
+
+sns.barplot(ax=ax4, data=grouped_city.get_group('جدة'), x=plot_arabic(pd.Series(grouped_city.get_group('الرياض')['part_of_city'].cat.categories)), 
+  y=pd.Series(grouped_city.get_group('جدة').groupby('part_of_city')['price'].median()), order=plot_arabic(parts_order))
+ax4.set_title('Jeddah')
+ax4.set_ylabel("")
+```
+
+```{python}
+#| echo: false
+# excluding the outlier values in price and size
+
+price_percentile_95th = np.percentile(data["price"], 95)
+size_percentile_95th = np.percentile(data["size"], 95)
+price_percentile_5th = np.percentile(data["price"], 5)
+size_percentile_5th = np.percentile(data["size"], 5)
+
+exc_outliers = data.loc[data["price"] < price_percentile_95th]
+exc_outliers = exc_outliers.loc[data["size"] < size_percentile_95th]
+exc_outliers = exc_outliers.loc[data["price"] > price_percentile_5th]
+exc_outliers = exc_outliers.loc[data["size"] > size_percentile_5th]
+```
+
+How would the plots look if we chose the trimmed median instead of the median?
+
+```{python}
+
+#| echo: false
+# Visualizing the median price for each city and part within it (Excluding outliers in price and size)
+
+grouped_city = exc_outliers.groupby('city')
+# grouped_city.get_group('الرياض')
+# grouped_city.get_group('الخبر')
+# grouped_city.get_group('الدمام')
+# grouped_city.get_group('جدة')
+parts_order = pd.Series(['شمال شرق', 'شمال غرب', 'جنوب شرق', 'جنوب غرب'])
+
+fig, ((ax1,ax2), (ax3,ax4)) = plt.subplots(2,2, figsize=(12,9))
+plt.suptitle("The Median Price: Complete Dataset")
+
+
+sns.barplot(ax=ax1, data=grouped_city.get_group('الرياض'), x=plot_arabic(pd.Series(grouped_city.get_group('الرياض')['part_of_city'].cat.categories)), 
+  y=pd.Series(grouped_city.get_group('الرياض').groupby('part_of_city')['price'].median()), order=plot_arabic(parts_order))
+ax1.set_title("Riyadh")
+ax1.set_ylabel("Avg. Price")
+
+sns.barplot(ax=ax2, data=grouped_city.get_group('الخبر'), x=plot_arabic(pd.Series(grouped_city.get_group('الرياض')['part_of_city'].cat.categories)), 
+  y=pd.Series(grouped_city.get_group('الخبر').groupby('part_of_city')['price'].median()), order=plot_arabic(parts_order))
+ax2.set_title('Khubar')
+ax2.set_ylabel("")
+
+sns.barplot(ax=ax3, data=grouped_city.get_group('الدمام'), x=plot_arabic(pd.Series(grouped_city.get_group('الرياض')['part_of_city'].cat.categories)), 
+  y=pd.Series(grouped_city.get_group('الدمام').groupby('part_of_city')['price'].median()), order=plot_arabic(parts_order))
+ax3.set_title('Dammam')
+ax3.set_ylabel("Avg. Price")
+
+sns.barplot(ax=ax4, data=grouped_city.get_group('جدة'), x=plot_arabic(pd.Series(grouped_city.get_group('الرياض')['part_of_city'].cat.categories)), 
+  y=pd.Series(grouped_city.get_group('جدة').groupby('part_of_city')['price'].median()), order=plot_arabic(parts_order))
+ax4.set_title('Jeddah')
+ax4.set_ylabel("")
+
+```
+
+```{python}
+#| echo: false
+# remove all the changes I made to the dataset
+data = pd.read_csv("SA_Aqar.csv")
+
+```
+
+
+
+
 # Overall Conclusion
 
 # Challenges Faced
