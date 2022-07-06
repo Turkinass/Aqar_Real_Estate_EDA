@@ -617,7 +617,7 @@ ax4.set_ylabel("");
 
 # Challenges Faced
 
-During this activity with the dataset, we overcame such great obstacles that include:
+During this assignment, we faced some obstacles that include:
 
 * Plotting Arabic labels in the correct formatting
 * Genearating mutliple plots and interacting them with Seaborn plots
