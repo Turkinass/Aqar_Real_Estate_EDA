@@ -2,7 +2,7 @@
 title: "Aqar Real Estate EDA"
 format:
   html:
-    theme: solar
+    theme: pulse
     toc: true
     toc-title: Contents
     toc-depth: 3
@@ -46,7 +46,47 @@ fireplace| show whether the house have a fireplace or not
 price| show the price of the house
 details| shows any additional details from the house owner about the house
 
-# EDA:
+```{python}
+#| echo: false
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# support arabic plotting
+import arabic_reshaper # pip install arabic-reshaper
+from bidi.algorithm import get_display # pip install python-bidi
+
+data = pd.read_csv("SA_Aqar.csv")
+
+# make a function to plot arabic labels
+def plot_arabic(labelsSeries: pd.Series):
+    """
+    A function that plots arabic literals in their required format instead of just floating letters
+    \nArgs:
+     - labelsSeries: a series of arabic labels 
+    \nReturns:
+     - result: a list of properly formatted arabic labels
+    """
+
+    # apply the reshaping method
+    arabicLabels = labelsSeries.apply(arabic_reshaper.reshape)
+
+    # initiate the formatting process
+    result = []
+    for label in arabicLabels:
+        result.append(get_display(label))
+    
+    # return the formatted labels as a list if there are more than one value
+    if len(result) == 1:
+        return result[0]
+    else:
+        return result
+```
+
+
+# EDA Process
 
 ## Turki & Yousef
 
@@ -54,19 +94,119 @@ details| shows any additional details from the house owner about the house
 
 The following questions were in mind during this part of the EDA:
 
-* Which city has the highest rent rate?
-* Does the district within a city play a role in increasing the rent rate?
-* Do the number of various features within a house increase its rent rate?
-* Which has a higher impact on the rent price| location or features?
+### Covariance: What is the factor that when present increases the price the most?
+
+```{python}
+#| label: corr
+#| fig-cap: Covariance Heatmap
+corr = data.corr()
+fig, ax = plt.subplots(figsize=(8,5))
+sns.heatmap(ax=ax, data= data.corr(), cmap="Greens");
+```
+
+As we can see in the @corr, we can observe that there are 4 major features that are considered higly correlated with price, these are:
+
+- `driver_room`
+- `pool`
+- `ac`
+- `basement`
+
+Interesting...
+
+How about a deep look at each feature with the price:
+
+```{python}
+#| label: featureplots
+#| fig-cap: Visualizing the effect of the 4 features on the price
+# see how great the above 4 feature affect the price
+# creating the canvas
+fig, ((ax1,ax2), (ax3,ax4)) = plt.subplots(2,2, figsize=(15,10))
+
+# plotting ax1 data: `driver_room`
+ax1 = sns.barplot(ax=ax1, y=data["price"], x=data["driver_room"] ,data=data)
+
+# configure the plot
+ax1.set_title("Effect of Driver's room on price")
+ax1.set_xlabel("")
+labels = [item.get_text() for item in ax1.get_xticklabels()]
+labels[0] = "Without Driver Room"
+labels[1] = "With Driver Room"
+ax1.set_xticklabels(labels)
+ax1.set_ylabel("Price")
+
+
+# plotting ax2 data: `ac`
+ax2 = sns.barplot(ax=ax2, y=data["price"], x=data["ac"] ,data=data)
+
+# configure the plot
+ax2.set_title("Effect of AC on price")
+ax2.set_xlabel("")
+labels = [item.get_text() for item in ax2.get_xticklabels()]
+labels[0] = "Without AC"
+labels[1] = "With AC"
+ax2.set_xticklabels(labels)
+ax2.set_ylabel("Price")
+
+
+# plotting ax3 data: `pool`
+ax3 = sns.barplot(ax=ax3, y=data["price"], x=data["pool"] ,data=data)
+
+# configure the plot
+ax3.set_title("Effect of Pool on price")
+ax3.set_xlabel("")
+labels = [item.get_text() for item in ax3.get_xticklabels()]
+labels[0] = "Without Pool"
+labels[1] = "With Pool"
+ax3.set_xticklabels(labels)
+ax3.set_ylabel("Price")
+
+# plotting ax4 data: `basement`
+ax4 = sns.barplot(ax=ax4,y=data["price"], x=data["basement"] ,data=data)
+
+# configure the plot
+ax4.set_title("Effect of Basement on price")
+ax4.set_xlabel("")
+labels = [item.get_text() for item in ax4.get_xticklabels()]
+labels[0] = "Without Basement"
+labels[1] = "With Basement"
+ax4.set_xticklabels(labels)
+ax4.set_ylabel("Price");
+
+
+```
+
+We can conculde the following based on the @featureplots:
+
+::: {.callout}
+On average, villas with a basement room tend to be showcased at a higher rent rate.
+:::
+
+### Which has a higher impact on the rent prices: location or features?
+
+```{python}
+#| label: cityprice
+#| fig-cap: Average price in each of the major cities
+# find the price range in the 4 major cities
+# create the canva
+fig, ax = plt.subplots(figsize=(8,5))
+
+# plot the data
+sns.barplot(ax=ax ,y = "price", x=plot_arabic(data["city"]), data=data)
+
+# configure the plot    
+ax.set_title(plot_arabic(pd.Series("متوسط أسعار الأجار حسب المدينة")))
+ax.set_ylabel(plot_arabic(pd.Series("الأسعار")))
+ax.set_xlabel(plot_arabic(pd.Series("المدن")));
+```
 
 
 ## Lana
 
 ## Mohammed
 
-## Overall Conclusion
+# Overall Conclusion
 
-## Challenges Faced
+# Challenges Faced
 
 During this activity with the dataset, we overcame such great obstacles that include:
 

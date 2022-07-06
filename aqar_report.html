@@ -15,6 +15,69 @@ span.underline{text-decoration: underline;}
 div.column{display: inline-block; vertical-align: top; width: 50%;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -24,7 +87,7 @@ ul.task-list{list-style: none;}
 <script src="aqar_report_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="aqar_report_files/libs/quarto-html/anchor.min.js"></script>
 <link href="aqar_report_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="aqar_report_files/libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="aqar_report_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="aqar_report_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="aqar_report_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="aqar_report_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet">
@@ -41,15 +104,19 @@ ul.task-list{list-style: none;}
    
   <ul>
   <li><a href="#overview-of-the-dataset" id="toc-overview-of-the-dataset" class="nav-link active" data-scroll-target="#overview-of-the-dataset"> <span class="header-section-number">1</span> Overview of the dataset</a></li>
-  <li><a href="#eda" id="toc-eda" class="nav-link" data-scroll-target="#eda"> <span class="header-section-number">2</span> EDA:</a>
+  <li><a href="#eda-process" id="toc-eda-process" class="nav-link" data-scroll-target="#eda-process"> <span class="header-section-number">2</span> EDA Process</a>
   <ul class="collapse">
   <li><a href="#turki-yousef" id="toc-turki-yousef" class="nav-link" data-scroll-target="#turki-yousef"> <span class="header-section-number">2.1</span> Turki &amp; Yousef</a></li>
-  <li><a href="#ahmed" id="toc-ahmed" class="nav-link" data-scroll-target="#ahmed"> <span class="header-section-number">2.2</span> Ahmed</a></li>
+  <li><a href="#ahmed" id="toc-ahmed" class="nav-link" data-scroll-target="#ahmed"> <span class="header-section-number">2.2</span> Ahmed</a>
+  <ul class="collapse">
+  <li><a href="#covariance-what-is-the-factor-that-when-present-increases-the-price-the-most" id="toc-covariance-what-is-the-factor-that-when-present-increases-the-price-the-most" class="nav-link" data-scroll-target="#covariance-what-is-the-factor-that-when-present-increases-the-price-the-most"> <span class="header-section-number">2.2.1</span> Covariance: What is the factor that when present increases the price the most?</a></li>
+  <li><a href="#which-has-a-higher-impact-on-the-rent-prices-location-or-features" id="toc-which-has-a-higher-impact-on-the-rent-prices-location-or-features" class="nav-link" data-scroll-target="#which-has-a-higher-impact-on-the-rent-prices-location-or-features"> <span class="header-section-number">2.2.2</span> Which has a higher impact on the rent prices: location or features?</a></li>
+  </ul></li>
   <li><a href="#lana" id="toc-lana" class="nav-link" data-scroll-target="#lana"> <span class="header-section-number">2.3</span> Lana</a></li>
   <li><a href="#mohammed" id="toc-mohammed" class="nav-link" data-scroll-target="#mohammed"> <span class="header-section-number">2.4</span> Mohammed</a></li>
-  <li><a href="#overall-conclusion" id="toc-overall-conclusion" class="nav-link" data-scroll-target="#overall-conclusion"> <span class="header-section-number">2.5</span> Overall Conclusion</a></li>
-  <li><a href="#challenges-faced" id="toc-challenges-faced" class="nav-link" data-scroll-target="#challenges-faced"> <span class="header-section-number">2.6</span> Challenges Faced</a></li>
   </ul></li>
+  <li><a href="#overall-conclusion" id="toc-overall-conclusion" class="nav-link" data-scroll-target="#overall-conclusion"> <span class="header-section-number">3</span> Overall Conclusion</a></li>
+  <li><a href="#challenges-faced" id="toc-challenges-faced" class="nav-link" data-scroll-target="#challenges-faced"> <span class="header-section-number">4</span> Challenges Faced</a></li>
   </ul>
 </nav>
 </div>
@@ -180,20 +247,146 @@ ul.task-list{list-style: none;}
 </tbody>
 </table>
 </section>
-<section id="eda" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> EDA:</h1>
+<section id="eda-process" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> EDA Process</h1>
 <section id="turki-yousef" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="turki-yousef"><span class="header-section-number">2.1</span> Turki &amp; Yousef</h2>
 </section>
 <section id="ahmed" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="ahmed"><span class="header-section-number">2.2</span> Ahmed</h2>
 <p>The following questions were in mind during this part of the EDA:</p>
+<section id="covariance-what-is-the-factor-that-when-present-increases-the-price-the-most" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="covariance-what-is-the-factor-that-when-present-increases-the-price-the-most"><span class="header-section-number">2.2.1</span> Covariance: What is the factor that when present increases the price the most?</h3>
+<div class="cell" data-execution_count="2">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>corr <span class="op">=</span> data.corr()</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">5</span>))</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>sns.heatmap(ax<span class="op">=</span>ax, data<span class="op">=</span> data.corr(), cmap<span class="op">=</span><span class="st">"Greens"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="corr" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="aqar_report_files/figure-html/corr-output-1.png" width="683" height="484" class="figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Covariance Heatmap</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>As we can see in the <span class="citation" data-cites="corr">@corr</span>, we can observe that there are 4 major features that are considered higly correlated with price, these are:</p>
 <ul>
-<li>Which city has the highest rent rate?</li>
-<li>Does the district within a city play a role in increasing the rent rate?</li>
-<li>Do the number of various features within a house increase its rent rate?</li>
-<li>Which has a higher impact on the rent price| location or features?</li>
+<li><code>driver_room</code></li>
+<li><code>pool</code></li>
+<li><code>ac</code></li>
+<li><code>basement</code></li>
 </ul>
+<p>Interesting…</p>
+<p>How about a deep look at each feature with the price:</p>
+<div class="cell" data-execution_count="3">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># see how great the above 4 feature affect the price</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># creating the canvas</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>fig, ((ax1,ax2), (ax3,ax4)) <span class="op">=</span> plt.subplots(<span class="dv">2</span>,<span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="dv">10</span>))</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># plotting ax1 data: `driver_room`</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>ax1 <span class="op">=</span> sns.barplot(ax<span class="op">=</span>ax1, y<span class="op">=</span>data[<span class="st">"price"</span>], x<span class="op">=</span>data[<span class="st">"driver_room"</span>] ,data<span class="op">=</span>data)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># configure the plot</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>ax1.set_title(<span class="st">"Effect of Driver's room on price"</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>ax1.set_xlabel(<span class="st">""</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [item.get_text() <span class="cf">for</span> item <span class="kw">in</span> ax1.get_xticklabels()]</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>labels[<span class="dv">0</span>] <span class="op">=</span> <span class="st">"Without Driver Room"</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>labels[<span class="dv">1</span>] <span class="op">=</span> <span class="st">"With Driver Room"</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>ax1.set_xticklabels(labels)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>ax1.set_ylabel(<span class="st">"Price"</span>)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># plotting ax2 data: `ac`</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> sns.barplot(ax<span class="op">=</span>ax2, y<span class="op">=</span>data[<span class="st">"price"</span>], x<span class="op">=</span>data[<span class="st">"ac"</span>] ,data<span class="op">=</span>data)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co"># configure the plot</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>ax2.set_title(<span class="st">"Effect of AC on price"</span>)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>ax2.set_xlabel(<span class="st">""</span>)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [item.get_text() <span class="cf">for</span> item <span class="kw">in</span> ax2.get_xticklabels()]</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>labels[<span class="dv">0</span>] <span class="op">=</span> <span class="st">"Without AC"</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>labels[<span class="dv">1</span>] <span class="op">=</span> <span class="st">"With AC"</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>ax2.set_xticklabels(labels)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>ax2.set_ylabel(<span class="st">"Price"</span>)</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="co"># plotting ax3 data: `pool`</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>ax3 <span class="op">=</span> sns.barplot(ax<span class="op">=</span>ax3, y<span class="op">=</span>data[<span class="st">"price"</span>], x<span class="op">=</span>data[<span class="st">"pool"</span>] ,data<span class="op">=</span>data)</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="co"># configure the plot</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>ax3.set_title(<span class="st">"Effect of Pool on price"</span>)</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>ax3.set_xlabel(<span class="st">""</span>)</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [item.get_text() <span class="cf">for</span> item <span class="kw">in</span> ax3.get_xticklabels()]</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>labels[<span class="dv">0</span>] <span class="op">=</span> <span class="st">"Without Pool"</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>labels[<span class="dv">1</span>] <span class="op">=</span> <span class="st">"With Pool"</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>ax3.set_xticklabels(labels)</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>ax3.set_ylabel(<span class="st">"Price"</span>)</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="co"># plotting ax4 data: `basement`</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>ax4 <span class="op">=</span> sns.barplot(ax<span class="op">=</span>ax4,y<span class="op">=</span>data[<span class="st">"price"</span>], x<span class="op">=</span>data[<span class="st">"basement"</span>] ,data<span class="op">=</span>data)</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="co"># configure the plot</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>ax4.set_title(<span class="st">"Effect of Basement on price"</span>)</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>ax4.set_xlabel(<span class="st">""</span>)</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [item.get_text() <span class="cf">for</span> item <span class="kw">in</span> ax4.get_xticklabels()]</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>labels[<span class="dv">0</span>] <span class="op">=</span> <span class="st">"Without Basement"</span></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>labels[<span class="dv">1</span>] <span class="op">=</span> <span class="st">"With Basement"</span></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>ax4.set_xticklabels(labels)</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>ax4.set_ylabel(<span class="st">"Price"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="featureplots" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="aqar_report_files/figure-html/featureplots-output-1.png" width="1214" height="786" class="figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Visualizing the effect of the 4 features on the price</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>We can conculde the following based on the <span class="citation" data-cites="featureplots">@featureplots</span>:</p>
+<div class="callout callout callout-style-simple no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>On average, villas with a basement room tend to be showcased at a higher rent rate.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="which-has-a-higher-impact-on-the-rent-prices-location-or-features" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="which-has-a-higher-impact-on-the-rent-prices-location-or-features"><span class="header-section-number">2.2.2</span> Which has a higher impact on the rent prices: location or features?</h3>
+<div class="cell" data-execution_count="4">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find the price range in the 4 major cities</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># create the canva</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">5</span>))</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the data</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>sns.barplot(ax<span class="op">=</span>ax ,y <span class="op">=</span> <span class="st">"price"</span>, x<span class="op">=</span>plot_arabic(data[<span class="st">"city"</span>]), data<span class="op">=</span>data)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># configure the plot    </span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>ax.set_title(plot_arabic(pd.Series(<span class="st">"متوسط أسعار الأجار حسب المدينة"</span>)))</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(plot_arabic(pd.Series(<span class="st">"الأسعار"</span>)))</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(plot_arabic(pd.Series(<span class="st">"المدن"</span>)))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="cityprice" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="aqar_report_files/figure-html/cityprice-output-1.png" width="696" height="447" class="figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Average price in each of the major cities</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
 </section>
 <section id="lana" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="lana"><span class="header-section-number">2.3</span> Lana</h2>
@@ -201,18 +394,18 @@ ul.task-list{list-style: none;}
 <section id="mohammed" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="mohammed"><span class="header-section-number">2.4</span> Mohammed</h2>
 </section>
-<section id="overall-conclusion" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="overall-conclusion"><span class="header-section-number">2.5</span> Overall Conclusion</h2>
 </section>
-<section id="challenges-faced" class="level2" data-number="2.6">
-<h2 data-number="2.6" class="anchored" data-anchor-id="challenges-faced"><span class="header-section-number">2.6</span> Challenges Faced</h2>
+<section id="overall-conclusion" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Overall Conclusion</h1>
+</section>
+<section id="challenges-faced" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Challenges Faced</h1>
 <p>During this activity with the dataset, we overcame such great obstacles that include:</p>
 <ul>
 <li>Plotting Arabic labels in the correct formatting</li>
 <li>Genearating mutliple plots and interacting them with Seaborn plots</li>
 <li>Conflicts with team working and collaboration</li>
 </ul>
-</section>
 </section>
 
 </main>
