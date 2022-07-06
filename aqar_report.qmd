@@ -202,6 +202,39 @@ ax.set_xlabel(plot_arabic(pd.Series("المدن")));
 
 ## Lana
 
+### what frontage appears the most and what is the most desired
+```{python}
+
+plt.figure(figsize=(10,8))
+plt.hist(x= plot_arabic(data['front']) , bins =20)
+plt.show()
+
+#insert price and frontage corr code
+```
+
+### what the ratio of bedrooms and living rooms to bathrooms and does it reflect the market demand 
+
+```{python}
+
+ratio = data[['bedrooms', 'bathrooms']].apply(lambda data: (data['bedrooms']/data['bathrooms']), axis=1)
+ratio = ratio.mean()
+ratio
+
+```
+
+### investigate rental units without kitchen
+
+```{python}
+
+nokit = data.groupby(['kitchen']).get_group(0)
+nokit
+
+sns.histplot(data=nokit, x="bedrooms", kde=True)
+
+sns.histplot(data=nokit, x="bathrooms", kde=True, color="orange")
+
+```
+
 ## Mohammed
 
 # Overall Conclusion
