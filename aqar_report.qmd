@@ -622,3 +622,4 @@ During this activity with the dataset, we overcame such great obstacles that inc
 * Plotting Arabic labels in the correct formatting
 * Genearating mutliple plots and interacting them with Seaborn plots
 * Conflicts with team working and collaboration
+* data cleaning 
