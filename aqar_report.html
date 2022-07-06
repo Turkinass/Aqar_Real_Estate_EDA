@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.640">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Aqar Real Estate EDA</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+<script src="aqar_report_files/libs/clipboard/clipboard.min.js"></script>
+<script src="aqar_report_files/libs/quarto-html/quarto.js"></script>
+<script src="aqar_report_files/libs/quarto-html/popper.min.js"></script>
+<script src="aqar_report_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="aqar_report_files/libs/quarto-html/anchor.min.js"></script>
+<link href="aqar_report_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="aqar_report_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="aqar_report_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="aqar_report_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="aqar_report_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Aqar Real Estate EDA</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="overview-of-the-dataset" class="level1">
+<h1>Overview of the dataset</h1>
+<p>The Aqar Dataset was made based on 4 major cities in Saudi Arabia:</p>
+<ul>
+<li>Riyadh</li>
+<li>Jeddah</li>
+<li>Dammam</li>
+<li>Khobar</li>
+</ul>
+<p>The dataset is composed of over 3000 observations with 24 features as follows:</p>
+<table class="table">
+<colgroup>
+<col style="width: 42%">
+<col style="width: 57%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Feature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>city</td>
+<td>city where house locate in</td>
+</tr>
+<tr class="even">
+<td>district</td>
+<td>district where house locate in</td>
+</tr>
+<tr class="odd">
+<td>front</td>
+<td>What is the house front is north, west .. etc</td>
+</tr>
+<tr class="even">
+<td>size</td>
+<td>size in m^2</td>
+</tr>
+<tr class="odd">
+<td>propertyage</td>
+<td>property age for the house</td>
+</tr>
+<tr class="even">
+<td>bedrooms</td>
+<td>number of bedrooms</td>
+</tr>
+<tr class="odd">
+<td>bathrooms</td>
+<td>number of bathrooms</td>
+</tr>
+<tr class="even">
+<td>livingrooms</td>
+<td>number of livingrooms</td>
+</tr>
+<tr class="odd">
+<td>kitchen</td>
+<td>show whether the house have a kitchen or not garage</td>
+</tr>
+<tr class="even">
+<td>furnished</td>
+<td>show whether the house is furnished or not</td>
+</tr>
+<tr class="odd">
+<td>ac</td>
+<td>show whether the house have a ac or not</td>
+</tr>
+<tr class="even">
+<td>roof</td>
+<td>show whether the house have a space for roof on top or not</td>
+</tr>
+<tr class="odd">
+<td>pool</td>
+<td>show whether the house have a pool or not</td>
+</tr>
+<tr class="even">
+<td>frontyard</td>
+<td>show whether the house have a frontyard or not</td>
+</tr>
+<tr class="odd">
+<td>basement</td>
+<td>show whether the house have a basement or not</td>
+</tr>
+<tr class="even">
+<td>duplex</td>
+<td>show whether the house is a duplex or not</td>
+</tr>
+<tr class="odd">
+<td>stairs</td>
+<td>show whether the house have a stairs or not</td>
+</tr>
+<tr class="even">
+<td>elevator</td>
+<td>show whether the house have an elevator or not</td>
+</tr>
+<tr class="odd">
+<td>fireplace</td>
+<td>show whether the house have a fireplace or not</td>
+</tr>
+<tr class="even">
+<td>price</td>
+<td>show the price of the house</td>
+</tr>
+<tr class="odd">
+<td>details</td>
+<td>shows any additional details from the house owner about the house</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="eda" class="level1">
+<h1>EDA:</h1>
+<section id="turki-yousef" class="level2">
+<h2 class="anchored" data-anchor-id="turki-yousef">Turki &amp; Yousef</h2>
+</section>
+<section id="ahmed" class="level2">
+<h2 class="anchored" data-anchor-id="ahmed">Ahmed</h2>
+<p>The following questions were in mind during this part of the EDA:</p>
+<ul>
+<li>Which city has the highest rent rate?</li>
+<li>Does the district within a city play a role in increasing the rent rate?</li>
+<li>Do the number of various features within a house increase its rent rate?</li>
+<li>Which has a higher impact on the rent price| location or features?</li>
+</ul>
+</section>
+<section id="lana" class="level2">
+<h2 class="anchored" data-anchor-id="lana">Lana</h2>
+</section>
+<section id="mohammed" class="level2">
+<h2 class="anchored" data-anchor-id="mohammed">Mohammed</h2>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
