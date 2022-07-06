@@ -171,12 +171,11 @@ The following questions were in mind during this part of the EDA:
 #| label: corr
 #| fig-cap: Covariance Heatmap
 
-# drop the 2 extreme values
-data.drop(index=([1206, 1168]), axis=0, inplace=True)
 
+mask = np.triu(np.ones_like(data.corr()))
 corr = data.corr()
 fig, ax = plt.subplots(figsize=(8,5))
-sns.heatmap(ax=ax, data= data.corr(), cmap="Greens");
+sns.heatmap(ax=ax, data= data.corr(), cmap="Greens",mask=mask);
 ```
 
 As we can see in the @corr, we can observe that there are 4 major features that are considered higly correlated with price, these are:
