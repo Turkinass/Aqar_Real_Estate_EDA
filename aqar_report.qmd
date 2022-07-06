@@ -2,7 +2,11 @@
 title: "Aqar Real Estate EDA"
 format:
   html:
-    theme: sandstone
+    theme: solar
+    toc: true
+    toc-title: Contents
+    toc-depth: 3
+    number-sections: true
     code-fold: true
 jupyter: python3
 ---
@@ -59,3 +63,13 @@ The following questions were in mind during this part of the EDA:
 ## Lana
 
 ## Mohammed
+
+## Overall Conclusion
+
+## Challenges Faced
+
+During this activity with the dataset, we overcame such great obstacles that include:
+
+* Plotting Arabic labels in the correct formatting
+* Genearating mutliple plots and interacting them with Seaborn plots
+* Conflicts with team working and collaboration
