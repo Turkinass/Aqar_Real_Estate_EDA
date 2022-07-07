@@ -539,7 +539,7 @@ We can conculde the following based on the @featuresInCities figure:
 On average, these properties tend to be located in Jeddah, where we also notice its possession of high rental rates.
 :::
 
-**What frontage appears the most and what is the most desired**
+**What frontage appears the most**
 ```{python}
 
 plt.figure(figsize=(10,8))
@@ -576,7 +576,7 @@ sns.histplot(data=nokit, x="bathrooms", kde=True, color="orange");
 The location of a house may be the most significant factor in determining the price, we don't have that in the dataset. Perhaps we can create this attribute.
 
 ```{python}
-data['district'].head(10)
+data['district'].head(10).to_frame()
 ```
 
 ```{python}
@@ -623,7 +623,7 @@ data[['latitude', 'longitude', 'city']].head()
 
 
 ```{python}
-# data['latitude'].isna().sum() / len(data['latitude'])
+data['latitude'].isna().sum() / len(data['latitude'])
 ```
 
 
@@ -871,16 +871,21 @@ ax4.set_ylabel("");
 
 
 ## Overall Conclusion
+In conclusion:
 
+- We identified the highest price district, the best districts in Jeddah and Riyadh in terms of size.
+- The rental rates are high in Jeddah compared to the other cities, where also the features that increase the price are found in their properties.
+-  The north region in each city tends to be the most expensive.
+- In each city, houses located in the southern side of the city were most prevalent.
 ## Challenges Faced
 
 During this assignment, we faced some obstacles that include:
 
-* Plotting Arabic labels in the correct formatting
-* Genearating mutliple plots and interacting them with Seaborn plots
-* Conflicts with team working and collaboration
+* Plotting Arabic labels in the correct formatting.
+* Genearating mutliple plots and interacting them with Seaborn plots.
+* Conflicts with team working and collaboration.
 * 60% of the dataset were duplicates, which may be a bug or because people post more than once, so we had to work with only 1400 observation to conduct the analysis.
-* Data cleaning
+* Data cleaning.
 
 ## Resources
 Saudi Arabia Real Estate (AQAR), Rental house dataset for Riyadh, Jeddah, Dammam, and Alkhobar. [https://www.kaggle.com/datasets/lama122/saudi-arabia-real-estate-aqar](https://www.kaggle.com/datasets/lama122/saudi-arabia-real-estate-aqar).
