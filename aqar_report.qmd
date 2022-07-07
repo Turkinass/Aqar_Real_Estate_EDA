@@ -19,7 +19,7 @@ jupyter: python3
 
 ## Overview of the dataset
 
-Aqar (عقار, “Real estate”) is Saudi Arabia’s biggest specialized online marketplace for—you guessed it—real estate. In 2021, 3718 posts were web scrapped from Aqar, covering the kingdom’s 4 major cites: Riyadh, Jeddah, Khobar and Dammam, in order to know more about the rental prices across the cities and what features affects it the most.
+Aqar (عقار, “Real estate”) is Saudi Arabia’s biggest specialized online marketplace for—you guessed it—real estate. In 2021, 3718 rental listing were web scraped from Aqar, covering the kingdom’s 4 major cites: Riyadh, Jeddah, Khobar and Dammam, in order to know more about the rental prices across the cities and what features affects it the most.
 
 The observations of the dataset were described using 24 features as follows:
 
@@ -87,65 +87,13 @@ def plot_arabic(labelsSeries: pd.Series):
 ```
 
 
-## EDA Process
+## EDA
 
 ```{python}
 import geopandas as gpd
 import plotly.express as px
 import geopandas as gpd
 ```
-
-```{python}
-data = pd.read_csv("data/SA_Aqar.csv")
-
-# removing duplicates
-data.drop_duplicates(keep='first', inplace=True)
-
-villas_str = "فلتين|فيلا|فلا|فله|فلة|فلل|فيلل|ڤلة|ڤله|بيت|ڤيلا|villa"
-duplex_str = "دبلكس|دوبلكس|duplex|دبلوكس"
-
-# add missing duplexes to duplex column
-data.loc[(data['duplex'] == 0) & (data['details'].str.contains(duplex_str, case=False)), 'duplex'] = 1
-
-# adding villa column
-is_villa = (data['duplex'] == 0) & (data['details'].str.contains(villas_str, case=False))
-data['villa'] = np.where(
-    is_villa, 1, np.where(
-    is_villa == False, 0, -1)) 
-
-# adding "other" column for other types of real estate
-is_other = (data['duplex'] == 0) & (data['villa'] == 0)
-data['other'] = np.where(
-    is_other, 1, np.where(
-    is_other == False, 0, -1)) 
-
-# add type column
-data["type"] = data[["villa","duplex","other"]].idxmax(1).to_frame()
-
-data_wo_exteremevalues = data[(data['size'] < 1000) & (data['price'] < 300000)]
-```
-```{python}
-#| fig-cap: "Number of real estate per type"
-
-sns.barplot(data=data[["villa","duplex","other"]], estimator=sum, palette="Blues_d")
-plt.xlabel(plot_arabic(pd.Series("نوع السكن")))
-plt.ylabel(plot_arabic(pd.Series("العدد")))
-plt.title(plot_arabic(pd.Series("توزيع انواع السكن")));
-```
-
-```{python}
-#| fig-cap: "Distribtuon of real estate per size for each city"
-px.scatter(data_wo_exteremevalues, x="size", y="price", color='type', facet_col="city", opacity=0.5, facet_col_wrap=2, title="توزيع أسعار الأجار حسب نوع المسكن لكل المدينة")
-```
-
-NOTES HERE
-
-```{python}
-#| fig-cap: "Distribtuon of real estate per age for each city"
-px.scatter(data_wo_exteremevalues, x="size", y="price", color='property_age', facet_col="city", opacity=0.5, facet_col_wrap=2, title="توزيع أسعار الأجار حسب عمر المسكن لكل المدينة")
-```
-
-NOTES HERE
 
 ```{python}
 #| fig-cap: "Average real estate price in each district in Riyadh"
@@ -195,6 +143,14 @@ fig = px.choropleth_mapbox(geo_df,
                            hover_data={'price':':.0f'})
 fig.show()
 ```
+
+We can see that western north has the highest prices, which happen to be the area with the newest neighborhoods and many companies headquarters.
+
+The average prices vary across the 107 available districts in the kingdom’s capital from around 15,000 SR to x25 times the price at 400,000 SR.
+
+This may seem unreasonable especially since it does not mention the type of the property.
+
+Riyadh in this dataset has a relatively high number of observations yet this does not mean it is free of anomalies such as Iskan district (due to it having only one observation).
 
 ```{python}
 #| fig-cap: "Average real estate price in each district in Jeddah"
@@ -288,6 +244,71 @@ fig = px.choropleth_mapbox(geo_df,
                            hover_data={'price':':.0f'})
 fig.show()
 ```
+
+Another expected pattern can be seen in Jeddah and Khobar and Dammam where the highest prices of properties along or near to the sea. Yet some districts in Khobar, such as Sawari and Shira’a districts are fairly close to the sea yet have average prices, which is probably due to its distance from central Khobar.
+
+<br>
+
+The average price across all cities was high but made since after looking at the distribution of the property types.
+
+```{python}
+data = pd.read_csv("data/SA_Aqar.csv")
+
+# removing duplicates
+data.drop_duplicates(keep='first', inplace=True)
+
+villas_str = "فلتين|فيلا|فلا|فله|فلة|فلل|فيلل|ڤلة|ڤله|بيت|ڤيلا|villa"
+duplex_str = "دبلكس|دوبلكس|duplex|دبلوكس"
+
+# add missing duplexes to duplex column
+data.loc[(data['duplex'] == 0) & (data['details'].str.contains(duplex_str, case=False)), 'duplex'] = 1
+
+# adding villa column
+is_villa = (data['duplex'] == 0) & (data['details'].str.contains(villas_str, case=False))
+data['villa'] = np.where(
+    is_villa, 1, np.where(
+    is_villa == False, 0, -1)) 
+
+# adding "other" column for other types of real estate
+is_other = (data['duplex'] == 0) & (data['villa'] == 0)
+data['other'] = np.where(
+    is_other, 1, np.where(
+    is_other == False, 0, -1)) 
+
+# add type column
+data["type"] = data[["villa","duplex","other"]].idxmax(1).to_frame()
+
+data_wo_exteremevalues = data[(data['size'] < 1000) & (data['price'] < 300000)]
+```
+
+```{python}
+#| fig-cap: "Number of real estate per type"
+sns.barplot(data=data[["villa","duplex","other"]], estimator=sum, palette="Blues_d")
+plt.xlabel(plot_arabic(pd.Series("نوع السكن")))
+plt.ylabel(plot_arabic(pd.Series("العدد")))
+plt.title(plot_arabic(pd.Series("توزيع انواع السكن")));
+```
+
+To have better understanding of the prices we need to take more than one variable at once and see how they affect the price.
+
+```{python}
+#| fig-cap: "Distribtuon of real estate per size for each city"
+px.scatter(data_wo_exteremevalues, x="size", y="price", color='type', facet_col="city", opacity=0.5, facet_col_wrap=2, title="توزيع أسعار الأجار حسب نوع المسكن لكل المدينة")
+```
+
+```{python}
+#| fig-cap: "Distribtuon of real estate per age for each city"
+px.scatter(data_wo_exteremevalues, x="size", y="price", color='property_age', facet_col="city", opacity=0.5, facet_col_wrap=2, title="توزيع أسعار الأجار حسب عمر المسكن لكل المدينة")
+```
+
+From the graph we first see:
+
+- How imbalanced the dataset it in terms of the number of observations per city.
+- Most of the properties have size <500 meter squared.
+- In Riyadh most of the properties have price <150,000 SR and <100,000 for Khobar and Dammam. Jeddah has no clear pattern.
+- Unlike villas, the sizes of duplexes are similar across all cities.
+- Villas in Khobar are larger and pricer than Dammam.
+
 
 ```{python}
 data = pd.read_csv("data/SA_Aqar.csv")
