@@ -879,7 +879,8 @@ During this assignment, we faced some obstacles that include:
 * Plotting Arabic labels in the correct formatting
 * Genearating mutliple plots and interacting them with Seaborn plots
 * Conflicts with team working and collaboration
-* data cleaning 
+* 60% of the dataset were duplicates, which may be a bug or because people post more than once, so we had to work with only 1400 observation to conduct the analysis.
+* Data cleaning
 
 ## Resources
 Saudi Arabia Real Estate (AQAR), Rental house dataset for Riyadh, Jeddah, Dammam, and Alkhobar. [https://www.kaggle.com/datasets/lama122/saudi-arabia-real-estate-aqar](https://www.kaggle.com/datasets/lama122/saudi-arabia-real-estate-aqar).
