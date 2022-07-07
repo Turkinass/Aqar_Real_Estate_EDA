@@ -389,82 +389,71 @@ sns.heatmap(ax=ax, data= data.corr(), cmap="Greens",mask=mask);
 
 As we can see in the matrix, we can observe that there are 4 major features that are considered higly correlated with price, these are:
 
+- `livingrooms`
 - `driver_room`
-- `pool`
-- `ac`
 - `basement`
+- `elevator`
 
 How about a deep look at each feature with the price:
 
 ```{python}
 #| label: featureplots
-#| fig-cap: "Visualizing the effect of the 4 features on the price"
-#| fig-width: 5
+#| fig-cap: Visualizing the effect of the 4 features on the price
 # see how great the above 4 feature affect the price
 # creating the canvas
-fig1, ((ax11,ax21), (ax31,ax41)) = plt.subplots(2,2, figsize=(15,10))
-
+fig, ((ax1,ax2), (ax3,ax4)) = plt.subplots(2,2, figsize=(15,10))
 # plotting ax1 data: `driver_room`
-ax11 = sns.barplot(ax=ax11, y=data["price"], x=data["driver_room"] ,data=data)
-
+ax1 = sns.barplot(ax=ax1, y=data["price"], x=data["driver_room"] ,data=data)
 # configure the plot
-ax11.set_title("Effect of Driver's room on price")
-ax11.set_xlabel("")
-labels = [item.get_text() for item in ax11.get_xticklabels()]
+ax1.set_title("Effect of Driver's room on price")
+ax1.set_xlabel("")
+labels = [item.get_text() for item in ax1.get_xticklabels()]
 labels[0] = "Without Driver Room"
 labels[1] = "With Driver Room"
-ax11.set_xticklabels(labels)
-ax11.set_ylabel("Price")
-
-
-# plotting ax2 data: `ac`
-ax21 = sns.barplot(ax=ax21, y=data["price"], x=data["ac"] ,data=data)
-
+ax1.set_xticklabels(labels)
+ax1.set_ylabel("Price")
+# plotting ax2 data: `livingrooms`
+ax2 = sns.barplot(ax=ax2, y=data["price"], x=data["livingrooms"] ,data=data)
 # configure the plot
-ax21.set_title("Effect of AC on price")
-ax21.set_xlabel("")
-labels = [item.get_text() for item in ax21.get_xticklabels()]
-labels[0] = "Without AC"
-labels[1] = "With AC"
-ax21.set_xticklabels(labels)
-ax21.set_ylabel("Price")
-
-
-# plotting ax3 data: `pool`
-ax31 = sns.barplot(ax=ax31, y=data["price"], x=data["pool"] ,data=data)
-
+ax2.set_title("Effect of Living rooms on price")
+ax2.set_xlabel("")
+labels = [item.get_text() for item in ax2.get_xticklabels()]
+labels[0] = f"{labels[0]} room"
+labels[1] = f"{labels[1]} room"
+labels[2] = f"{labels[2]} room"
+labels[3] = f"{labels[3]} room"
+labels[4] = f"{labels[4]} room"
+ax2.set_xticklabels(labels)
+ax2.set_ylabel("Price")
+# plotting ax3 data: `elevator`
+ax3 = sns.barplot(ax=ax3, y=data["price"], x=data["elevator"] ,data=data)
 # configure the plot
-ax31.set_title("Effect of Pool on price")
-ax31.set_xlabel("")
-labels = [item.get_text() for item in ax31.get_xticklabels()]
-labels[0] = "Without Pool"
-labels[1] = "With Pool"
-ax31.set_xticklabels(labels)
-ax31.set_ylabel("Price")
-
+ax3.set_title("Effect of Elevator on price")
+ax3.set_xlabel("")
+labels = [item.get_text() for item in ax3.get_xticklabels()]
+labels[0] = "Without Elevator"
+labels[1] = "With Elevator"
+ax3.set_xticklabels(labels)
+ax3.set_ylabel("Price")
 # plotting ax4 data: `basement`
-ax41 = sns.barplot(ax=ax41,y=data["price"], x=data["basement"] ,data=data)
-
+ax4 = sns.barplot(ax=ax4,y=data["price"], x=data["basement"] ,data=data)
 # configure the plot
-ax41.set_title("Effect of Basement on price")
-ax41.set_xlabel("")
-labels = [item.get_text() for item in ax41.get_xticklabels()]
+ax4.set_title("Effect of Basement on price")
+ax4.set_xlabel("")
+labels = [item.get_text() for item in ax4.get_xticklabels()]
 labels[0] = "Without Basement"
 labels[1] = "With Basement"
-ax41.set_xticklabels(labels)
-ax41.set_ylabel("Price");
-
-
+ax4.set_xticklabels(labels)
+ax4.set_ylabel("Price");
 ```
 
 We can conculde the following based on the feature plots:
 
-::: {.callout}
-On average, villas with a basement room tend to be showcased at a higher rent rate.
+::: {.callout-tip}
+On average, properties with a basement room tend to be showcased at a higher rent rate.
 :::
 
-<br>
-**Which has a higher impact on the rent prices: location or features?**
+**Location: How are the properties with these locations distributed across the cities?**
 
 ```{python}
 #| label: cityprice
@@ -482,6 +471,52 @@ ax.set_ylabel(plot_arabic(pd.Series("الأسعار")))
 ax.set_xlabel(plot_arabic(pd.Series("المدن")));
 ```
 
+```{python}
+#| label: featuresInCities
+#| fig-cap: Number of properties with the features that correlate to the price in each city
+
+# count the properties with the main features in mind for each city
+## generate the canva
+fig, ((ax1,ax2), (ax3,ax4)) = plt.subplots(2,2, figsize=(15,10))
+
+# feature `livingrooms > 3`
+data_city = data[data["livingrooms"] > 3]
+sns.histplot(ax=ax1, x=plot_arabic(data_city["city"]))
+
+# feature `driver_room == 1`
+data_driver_room = data[data["driver_room"] == 1]
+sns.histplot(ax=ax2, x=plot_arabic(data_driver_room["city"]))
+
+# feature `basement == 1`
+data_basement = data[data["basement"] == 1]
+sns.histplot(ax=ax3, x=plot_arabic(data_basement["city"]))
+
+# feature `elevator == 1`
+data_elevator = data[data["elevator"] == 1]
+sns.histplot(ax=ax4, x=plot_arabic(data_elevator["city"]))
+
+## configure the plots
+
+ax1.set_title("Number of properties with Livingrooms > 3")
+ax2.set_title("Number of properties with Driver room")
+ax3.set_title("Number of properties with Basement")
+ax4.set_title("Number of properties with Elevator")
+
+ax1.set_xlabel("City")
+ax1.set_ylabel("Count")
+ax2.set_xlabel("City")
+ax2.set_ylabel("Count")
+ax3.set_xlabel("City")
+ax3.set_ylabel("Count")
+ax4.set_xlabel("City")
+ax4.set_ylabel("Count");
+```
+
+We can conculde the following based on the @featuresInCities figure:
+
+::: {.callout-tip}
+On average, these properties tend to be located in Jeddah, where we also notice its possession of high rental rates.
+:::
 
 **What frontage appears the most and what is the most desired**
 ```{python}
@@ -520,34 +555,41 @@ sns.histplot(data=nokit, x="bathrooms", kde=True, color="orange");
 The location of a house may be the most significant factor in determining the price, we don't have that in the dataset. Perhaps we can create this attribute.
 
 ```{python}
-
-# data['district'].head(10)
+data['district'].head(10)
 ```
 
 ```{python}
-# libraries to handle spacial data
+# libraries to handel spacial data
 import geopandas as gpd
 import geopy
+```
+
+```{python}
+#| echo: false
 from geopy.geocoders import Nominatim
 from geopy.extra.rate_limiter import RateLimiter
 import folium
 from folium.plugins import FastMarkerCluster
+```
 
+
+```{python}
+#|eval: false
 # 0 - create a locator instance
 locator = Nominatim(user_agent="myGeocoder")
-
 # 1 - conveneint function to delay between geocoding calls
 geocode = RateLimiter(locator.geocode, min_delay_seconds=0.1)
-
 # 2- - create location column
 data['location'] = data['district'].apply(geocode)
-
 # 3 - create longitude, laatitude and altitude from location column (returns tuple)
 data['point'] = data['location'].apply(lambda loc: tuple(loc.point) if loc else None)
-
 # 4 - split point column into latitude, longitude and altitude columns
 data[['latitude', 'longitude', 'altitude']] = pd.DataFrame(data['point'].tolist(), index=data.index)
+```
 
+
+```{python}
+#|echo: false
 data = pd.read_csv("data/SA_Aqar_Added_Attributes.csv")
 data['part_of_city'] = data['part_of_city'].astype('category')
 ```
@@ -589,7 +631,7 @@ def middle_of_cities(latitude: pd.Series, longitude: pd.Series, cities: pd.Serie
     middles = {}
 
     for city in cities.unique():
-        indicies = cities == city
+        indicies = cities == citys
         relevent_city = cities.loc[indicies]
         relevent_latitude = latitude.loc[indicies]
         relevent_longitude = longitude.loc[indicies]
