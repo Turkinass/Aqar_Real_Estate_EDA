@@ -380,12 +380,12 @@ fig, ax = plt.subplots(figsize=(8,5))
 sns.heatmap(ax=ax, data= data.corr(), cmap="Greens",mask=mask);
 ```
 
-As we can see in the @corr, we can observe that there are 4 major features that are considered higly correlated with price, these are:
+As we can see in the @corr figure, we can observe that there are 4 major features that are considered higly correlated with price, these are:
 
+- `livingrooms`
 - `driver_room`
-- `pool`
-- `ac`
 - `basement`
+- `elevator`
 
 Interesting...
 
@@ -411,28 +411,31 @@ ax1.set_xticklabels(labels)
 ax1.set_ylabel("Price")
 
 
-# plotting ax2 data: `ac`
-ax2 = sns.barplot(ax=ax2, y=data["price"], x=data["ac"] ,data=data)
+# plotting ax2 data: `livingrooms`
+ax2 = sns.barplot(ax=ax2, y=data["price"], x=data["livingrooms"] ,data=data)
 
 # configure the plot
-ax2.set_title("Effect of AC on price")
+ax2.set_title("Effect of Living rooms on price")
 ax2.set_xlabel("")
 labels = [item.get_text() for item in ax2.get_xticklabels()]
-labels[0] = "Without AC"
-labels[1] = "With AC"
+labels[0] = f"{labels[0]} room"
+labels[1] = f"{labels[1]} room"
+labels[2] = f"{labels[2]} room"
+labels[3] = f"{labels[3]} room"
+labels[4] = f"{labels[4]} room"
 ax2.set_xticklabels(labels)
 ax2.set_ylabel("Price")
 
 
-# plotting ax3 data: `pool`
-ax3 = sns.barplot(ax=ax3, y=data["price"], x=data["pool"] ,data=data)
+# plotting ax3 data: `elevator`
+ax3 = sns.barplot(ax=ax3, y=data["price"], x=data["elevator"] ,data=data)
 
 # configure the plot
-ax3.set_title("Effect of Pool on price")
+ax3.set_title("Effect of Elevator on price")
 ax3.set_xlabel("")
 labels = [item.get_text() for item in ax3.get_xticklabels()]
-labels[0] = "Without Pool"
-labels[1] = "With Pool"
+labels[0] = "Without Elevator"
+labels[1] = "With Elevator"
 ax3.set_xticklabels(labels)
 ax3.set_ylabel("Price")
 
@@ -453,11 +456,11 @@ ax4.set_ylabel("Price");
 
 We can conculde the following based on the @featureplots:
 
-::: {.callout}
-On average, villas with a basement room tend to be showcased at a higher rent rate.
+::: {.callout-tip}
+On average, properties with a basement room tend to be showcased at a higher rent rate.
 :::
 
-### Which has a higher impact on the rent prices: location or features?
+### Location: How are the properties with these locations distributed across the cities?
 
 ```{python}
 #| label: cityprice
@@ -475,6 +478,52 @@ ax.set_ylabel(plot_arabic(pd.Series("الأسعار")))
 ax.set_xlabel(plot_arabic(pd.Series("المدن")));
 ```
 
+```{python}
+#| label: featuresInCities
+#| fig-cap: Number of properties with the features that correlate to the price in each city
+
+# count the properties with the main features in mind for each city
+## generate the canva
+fig, ((ax1,ax2), (ax3,ax4)) = plt.subplots(2,2, figsize=(15,10))
+
+# feature `livingrooms > 3`
+data_city = data[data["livingrooms"] > 3]
+sns.histplot(ax=ax1, x=plot_arabic(data_city["city"]))
+
+# feature `driver_room == 1`
+data_driver_room = data[data["driver_room"] == 1]
+sns.histplot(ax=ax2, x=plot_arabic(data_driver_room["city"]))
+
+# feature `basement == 1`
+data_basement = data[data["basement"] == 1]
+sns.histplot(ax=ax3, x=plot_arabic(data_basement["city"]))
+
+# feature `elevator == 1`
+data_elevator = data[data["elevator"] == 1]
+sns.histplot(ax=ax4, x=plot_arabic(data_elevator["city"]))
+
+## configure the plots
+
+ax1.set_title("Number of properties with Livingrooms > 3")
+ax2.set_title("Number of properties with Driver room")
+ax3.set_title("Number of properties with Basement")
+ax4.set_title("Number of properties with Elevator")
+
+ax1.set_xlabel("City")
+ax1.set_ylabel("Count")
+ax2.set_xlabel("City")
+ax2.set_ylabel("Count")
+ax3.set_xlabel("City")
+ax3.set_ylabel("Count")
+ax4.set_xlabel("City")
+ax4.set_ylabel("Count");
+```
+
+We can conculde the following based on the @featuresInCities figure:
+
+::: {.callout-tip}
+On average, these properties tend to be located in Jeddah, where we also notice its possession of high rental rates.
+:::
 
 ## Lana
 
@@ -823,4 +872,8 @@ During this assignment, we faced some obstacles that include:
 * Plotting Arabic labels in the correct formatting
 * Genearating mutliple plots and interacting them with Seaborn plots
 * Conflicts with team working and collaboration
-* data cleaning 
+* Data cleaning
+
+::: {.callout-note}
+End of EDA Report.
+:::
