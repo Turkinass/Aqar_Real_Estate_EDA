@@ -1,5 +1,8 @@
 ---
 title: "Aqar Real Estate EDA"
+subtitle: ""
+author: "Turki Alsaedi, Yousef Alotaibi, Ahmed Almohammed, Lana Almorabah, Mohammed Alsalamah"
+author-title: Authors
 execute:
   echo: false
 format:
@@ -7,22 +10,18 @@ format:
     theme: pulse
     toc: true
     toc-title: Contents
-    toc-depth: 3
+    toc-depth: 2
     number-sections: true
     code-fold: true
+    title-block-banner: "data/header.jpg"
 jupyter: python3
 ---
 
-# Overview of the dataset
+## Overview of the dataset
 
-The Aqar Dataset was made based on 4 major cities in Saudi Arabia:
+Aqar (عقار, “Real estate”) is Saudi Arabia’s biggest specialized online marketplace for—you guessed it—real estate. In 2021, 3718 posts were web scrapped from Aqar, covering the kingdom’s 4 major cites: Riyadh, Jeddah, Khobar and Dammam, in order to know more about the rental prices across the cities and what features affects it the most.
 
-- Riyadh
-- Jeddah
-- Dammam
-- Khobar
-
-The dataset is composed of over 3000 observations with 24 features as follows:
+The observations of the dataset were described using 24 features as follows:
 
 Feature| Description
 ---|----|
@@ -88,9 +87,8 @@ def plot_arabic(labelsSeries: pd.Series):
 ```
 
 
-# EDA Process
+## EDA Process
 
-## Turki
 ```{python}
 import geopandas as gpd
 import plotly.express as px
@@ -127,7 +125,8 @@ data["type"] = data[["villa","duplex","other"]].idxmax(1).to_frame()
 data_wo_exteremevalues = data[(data['size'] < 1000) & (data['price'] < 300000)]
 ```
 ```{python}
-#| fig-cap: Number of real estate per type
+#| fig-cap: "Number of real estate per type"
+
 sns.barplot(data=data[["villa","duplex","other"]], estimator=sum, palette="Blues_d")
 plt.xlabel(plot_arabic(pd.Series("نوع السكن")))
 plt.ylabel(plot_arabic(pd.Series("العدد")))
@@ -135,79 +134,21 @@ plt.title(plot_arabic(pd.Series("توزيع انواع السكن")));
 ```
 
 ```{python}
-#| fig-cap: Distribtuon of real estate per age for each city
-px.scatter(data_wo_exteremevalues, x="size", y="price", color='property_age', facet_col="city", opacity=0.5, facet_col_wrap=2, title="توزيع أسعار الأجار حسب عمر المسكن لكل المدينة")
-```
-
-```{python}
-#| fig-cap: Distribtuon of real estate per size for each city
+#| fig-cap: "Distribtuon of real estate per size for each city"
 px.scatter(data_wo_exteremevalues, x="size", y="price", color='type', facet_col="city", opacity=0.5, facet_col_wrap=2, title="توزيع أسعار الأجار حسب نوع المسكن لكل المدينة")
 ```
 
+NOTES HERE
+
 ```{python}
-#| fig-cap: Average real estate price in each district in Khobar
-map_df = gpd.read_file("data/khobar.geojson", encoding = "utf_8")
-data = pd.read_csv("data/SA_Aqar.csv")
-
-# filter only real estate in given city
-city_name = "الخبر"
-data = data.loc[(data['city'].str.contains(city_name, case=False))]
-
-# get avg price per district
-data = data.groupby(['district'], as_index=False).mean()
-
-data["district"] = data["district"].apply(lambda x: x.strip())
-
-merged_df = map_df.merge(data, left_on=["name_ar"], right_on=["district"])
-
-geo_df = merged_df.set_index("district")
-
-fig = px.choropleth_mapbox(geo_df,
-                           geojson=geo_df.geometry,
-                           locations=geo_df.index,
-                           color="price",
-                           center={"lat": 26.22, "lon": 50.20},
-                           opacity=0.3,
-                           mapbox_style="carto-positron",
-                           zoom=9.1,
-                           title="متوسط أسعار الأجار حسب الحي (الخبر)",
-                           hover_data={'price':':.0f'})
-fig.show()
+#| fig-cap: "Distribtuon of real estate per age for each city"
+px.scatter(data_wo_exteremevalues, x="size", y="price", color='property_age', facet_col="city", opacity=0.5, facet_col_wrap=2, title="توزيع أسعار الأجار حسب عمر المسكن لكل المدينة")
 ```
 
-```{python}
-#| fig-cap: Average real estate price in each district in Dammam
-map_df = gpd.read_file("data/dammam.geojson", encoding = "utf_8")
-data = pd.read_csv("data/SA_Aqar.csv")
-
-# filter only real estate in given city
-city_name = "الدمام"
-data = data.loc[(data['city'].str.contains(city_name, case=False))]
-
-# get avg price per district
-data = data.groupby(['district'], as_index=False).mean()
-
-data["district"] = data["district"].apply(lambda x: x.strip())
-
-merged_df = map_df.merge(data, left_on=["name_ar"], right_on=["district"])
-
-geo_df = merged_df.set_index("district")
-
-fig = px.choropleth_mapbox(geo_df,
-                           geojson=geo_df.geometry,
-                           locations=geo_df.index,
-                           color="price",
-                           center={"lat": 26.42, "lon": 50.08},
-                           opacity=0.3,
-                           mapbox_style="carto-positron",
-                           zoom=9.1,
-                           title="متوسط أسعار الأجار حسب الحي (الدمام)",
-                           hover_data={'price':':.0f'})
-fig.show()
-```
+NOTES HERE
 
 ```{python}
-#| fig-cap: Average real estate price in each district in Riyadh
+#| fig-cap: "Average real estate price in each district in Riyadh"
 import json
 
 map_df = gpd.read_file("data/riyadh.geojson")
@@ -256,7 +197,7 @@ fig.show()
 ```
 
 ```{python}
-#| fig-cap: Average real estate price in each district in Jeddah
+#| fig-cap: "Average real estate price in each district in Jeddah"
 map_df = gpd.read_file("data/jeddah.geojson", encoding = "utf_8")
 data = pd.read_csv("data/SA_Aqar.csv")
 
@@ -287,31 +228,89 @@ fig.show()
 ```
 
 ```{python}
+#| fig-cap: "Average real estate price in each district in Khobar"
+map_df = gpd.read_file("data/khobar.geojson", encoding = "utf_8")
+data = pd.read_csv("data/SA_Aqar.csv")
+
+# filter only real estate in given city
+city_name = "الخبر"
+data = data.loc[(data['city'].str.contains(city_name, case=False))]
+
+# get avg price per district
+data = data.groupby(['district'], as_index=False).mean()
+
+data["district"] = data["district"].apply(lambda x: x.strip())
+
+merged_df = map_df.merge(data, left_on=["name_ar"], right_on=["district"])
+
+geo_df = merged_df.set_index("district")
+
+fig = px.choropleth_mapbox(geo_df,
+                           geojson=geo_df.geometry,
+                           locations=geo_df.index,
+                           color="price",
+                           center={"lat": 26.22, "lon": 50.20},
+                           opacity=0.3,
+                           mapbox_style="carto-positron",
+                           zoom=9.1,
+                           title="متوسط أسعار الأجار حسب الحي (الخبر)",
+                           hover_data={'price':':.0f'})
+fig.show()
+```
+
+```{python}
+#| fig-cap: "Average real estate price in each district in Dammam"
+map_df = gpd.read_file("data/dammam.geojson", encoding = "utf_8")
+data = pd.read_csv("data/SA_Aqar.csv")
+
+# filter only real estate in given city
+city_name = "الدمام"
+data = data.loc[(data['city'].str.contains(city_name, case=False))]
+
+# get avg price per district
+data = data.groupby(['district'], as_index=False).mean()
+
+data["district"] = data["district"].apply(lambda x: x.strip())
+
+merged_df = map_df.merge(data, left_on=["name_ar"], right_on=["district"])
+
+geo_df = merged_df.set_index("district")
+
+fig = px.choropleth_mapbox(geo_df,
+                           geojson=geo_df.geometry,
+                           locations=geo_df.index,
+                           color="price",
+                           center={"lat": 26.42, "lon": 50.08},
+                           opacity=0.3,
+                           mapbox_style="carto-positron",
+                           zoom=9.1,
+                           title="متوسط أسعار الأجار حسب الحي (الدمام)",
+                           hover_data={'price':':.0f'})
+fig.show()
+```
+
+```{python}
 data = pd.read_csv("data/SA_Aqar.csv")
 data.drop_duplicates(keep='first', inplace=True)
 ```
-## Yousef
+
 ```{python}
-#| label: Line Chart
-#| fig-cap: Average price and size per city
-
+#| label: Table
+#| fig-cap: "Highest average price districts"
 d_yousef = data[data['size'] < 80000]
-city_avg = d_yousef.groupby(plot_arabic(d_yousef['city'])).mean().sort_values('price', ascending = False)
+s = d_yousef.district.value_counts()
+repeated = set(s[s > 30].index.values)
+d_district = d_yousef[d_yousef.district.isin(repeated)]
 
-ax1 = plt.subplot()
-l1, = ax1.plot(city_avg['price'], color='red')
-plt.ylabel(plot_arabic(pd.Series("السعر")))
-ax2 = ax1.twinx()
-l2, = ax2.plot(city_avg['size'], color='orange')
-
-plt.ylabel(plot_arabic(pd.Series("المساحة")))
-plt.legend([l1, l2], plot_arabic(pd.Series(["السعر", "المساحة"])));
+d_district.groupby(['city','district'])['price'].mean().sort_values(ascending=False).to_frame().reset_index().head(10)
 ```
 <br><br>
 ```{python}
 #| label: Side-by-side bar
 #| fig-cap: Average price and size per distrit for Jeddah and Riyadh
+
 from IPython import display
+d_yousef = data[data['size'] < 80000]
 
 s = d_yousef.district.value_counts()
 repeated = set(s[s > 30].index.values)
@@ -358,20 +357,28 @@ display.Image("data/side-by-side-bar.png")
 ```
 <br><br>
 ```{python}
-#| label: Table
-#| fig-cap: Highest average price districts 
+#| label: Line Chart
+#| fig-cap: "Average price and size per city"
+d_yousef = data[data['size'] < 80000]
+city_avg = d_yousef.groupby(plot_arabic(d_yousef['city'])).mean().sort_values('price', ascending = False)
 
-d_district.groupby(['city','district'])['price'].mean().sort_values(ascending=False).to_frame().reset_index().head(10)
+ax1 = plt.subplot()
+l1, = ax1.plot(city_avg['price'], color='red')
+plt.ylabel(plot_arabic(pd.Series("السعر")))
+ax2 = ax1.twinx()
+l2, = ax2.plot(city_avg['size'], color='orange')
+
+plt.ylabel(plot_arabic(pd.Series("المساحة")))
+plt.legend([l1, l2], plot_arabic(pd.Series(["السعر", "المساحة"])));
 ```
-## Ahmed
 
 The following questions were in mind during this part of the EDA:
 
-### Covariance: What is the factor that when present increases the price the most?
+**Covariance: What is the factor that when present increases the price the most?**
 
 ```{python}
 #| label: corr
-#| fig-cap: Covariance Heatmap
+#| fig-cap: "Covariance Heatmap"
 
 
 mask = np.triu(np.ones_like(data.corr()))
@@ -380,88 +387,88 @@ fig, ax = plt.subplots(figsize=(8,5))
 sns.heatmap(ax=ax, data= data.corr(), cmap="Greens",mask=mask);
 ```
 
-As we can see in the @corr, we can observe that there are 4 major features that are considered higly correlated with price, these are:
+As we can see in the matrix, we can observe that there are 4 major features that are considered higly correlated with price, these are:
 
 - `driver_room`
 - `pool`
 - `ac`
 - `basement`
 
-Interesting...
-
 How about a deep look at each feature with the price:
 
 ```{python}
 #| label: featureplots
-#| fig-cap: Visualizing the effect of the 4 features on the price
+#| fig-cap: "Visualizing the effect of the 4 features on the price"
+#| fig-width: 5
 # see how great the above 4 feature affect the price
 # creating the canvas
-fig, ((ax1,ax2), (ax3,ax4)) = plt.subplots(2,2, figsize=(15,10))
+fig1, ((ax11,ax21), (ax31,ax41)) = plt.subplots(2,2, figsize=(15,10))
 
 # plotting ax1 data: `driver_room`
-ax1 = sns.barplot(ax=ax1, y=data["price"], x=data["driver_room"] ,data=data)
+ax11 = sns.barplot(ax=ax11, y=data["price"], x=data["driver_room"] ,data=data)
 
 # configure the plot
-ax1.set_title("Effect of Driver's room on price")
-ax1.set_xlabel("")
-labels = [item.get_text() for item in ax1.get_xticklabels()]
+ax11.set_title("Effect of Driver's room on price")
+ax11.set_xlabel("")
+labels = [item.get_text() for item in ax11.get_xticklabels()]
 labels[0] = "Without Driver Room"
 labels[1] = "With Driver Room"
-ax1.set_xticklabels(labels)
-ax1.set_ylabel("Price")
+ax11.set_xticklabels(labels)
+ax11.set_ylabel("Price")
 
 
 # plotting ax2 data: `ac`
-ax2 = sns.barplot(ax=ax2, y=data["price"], x=data["ac"] ,data=data)
+ax21 = sns.barplot(ax=ax21, y=data["price"], x=data["ac"] ,data=data)
 
 # configure the plot
-ax2.set_title("Effect of AC on price")
-ax2.set_xlabel("")
-labels = [item.get_text() for item in ax2.get_xticklabels()]
+ax21.set_title("Effect of AC on price")
+ax21.set_xlabel("")
+labels = [item.get_text() for item in ax21.get_xticklabels()]
 labels[0] = "Without AC"
 labels[1] = "With AC"
-ax2.set_xticklabels(labels)
-ax2.set_ylabel("Price")
+ax21.set_xticklabels(labels)
+ax21.set_ylabel("Price")
 
 
 # plotting ax3 data: `pool`
-ax3 = sns.barplot(ax=ax3, y=data["price"], x=data["pool"] ,data=data)
+ax31 = sns.barplot(ax=ax31, y=data["price"], x=data["pool"] ,data=data)
 
 # configure the plot
-ax3.set_title("Effect of Pool on price")
-ax3.set_xlabel("")
-labels = [item.get_text() for item in ax3.get_xticklabels()]
+ax31.set_title("Effect of Pool on price")
+ax31.set_xlabel("")
+labels = [item.get_text() for item in ax31.get_xticklabels()]
 labels[0] = "Without Pool"
 labels[1] = "With Pool"
-ax3.set_xticklabels(labels)
-ax3.set_ylabel("Price")
+ax31.set_xticklabels(labels)
+ax31.set_ylabel("Price")
 
 # plotting ax4 data: `basement`
-ax4 = sns.barplot(ax=ax4,y=data["price"], x=data["basement"] ,data=data)
+ax41 = sns.barplot(ax=ax41,y=data["price"], x=data["basement"] ,data=data)
 
 # configure the plot
-ax4.set_title("Effect of Basement on price")
-ax4.set_xlabel("")
-labels = [item.get_text() for item in ax4.get_xticklabels()]
+ax41.set_title("Effect of Basement on price")
+ax41.set_xlabel("")
+labels = [item.get_text() for item in ax41.get_xticklabels()]
 labels[0] = "Without Basement"
 labels[1] = "With Basement"
-ax4.set_xticklabels(labels)
-ax4.set_ylabel("Price");
+ax41.set_xticklabels(labels)
+ax41.set_ylabel("Price");
 
 
 ```
 
-We can conculde the following based on the @featureplots:
+We can conculde the following based on the feature plots:
 
 ::: {.callout}
 On average, villas with a basement room tend to be showcased at a higher rent rate.
 :::
 
-### Which has a higher impact on the rent prices: location or features?
+<br>
+**Which has a higher impact on the rent prices: location or features?**
 
 ```{python}
 #| label: cityprice
-#| fig-cap: Average price in each of the major cities
+#| fig-cap: "Average price in each of the major cities"
 # find the price range in the 4 major cities
 # create the canva
 fig, ax = plt.subplots(figsize=(8,5))
@@ -476,9 +483,7 @@ ax.set_xlabel(plot_arabic(pd.Series("المدن")));
 ```
 
 
-## Lana
-
-### what frontage appears the most and what is the most desired
+**What frontage appears the most and what is the most desired**
 ```{python}
 
 plt.figure(figsize=(10,8))
@@ -488,7 +493,7 @@ plt.show()
 #insert price and frontage corr code
 ```
 
-### what the ratio of bedrooms and living rooms to bathrooms and does it reflect the market demand 
+**What the ratio of bedrooms and living rooms to bathrooms and does it reflect the market demand**
 
 ```{python}
 
@@ -498,7 +503,7 @@ ratio
 
 ```
 
-### investigate rental units without kitchen
+**Investigate rental units without kitchen**
 
 ```{python}
 
@@ -511,34 +516,23 @@ sns.histplot(data=nokit, x="bathrooms", kde=True, color="orange");
 
 ```
 
-## Mohammed
 
 The location of a house may be the most significant factor in determining the price, we don't have that in the dataset. Perhaps we can create this attribute.
 
 ```{python}
 
-data['district'].head(10)
+# data['district'].head(10)
 ```
 
 ```{python}
-# libraries to handel spacial data
+# libraries to handle spacial data
 import geopandas as gpd
 import geopy
-```
-
-```{python}
-#| echo: false
-
 from geopy.geocoders import Nominatim
 from geopy.extra.rate_limiter import RateLimiter
 import folium
 from folium.plugins import FastMarkerCluster
 
-```
-
-
-```{python}
-#|eval: false
 # 0 - create a locator instance
 locator = Nominatim(user_agent="myGeocoder")
 
@@ -553,11 +547,7 @@ data['point'] = data['location'].apply(lambda loc: tuple(loc.point) if loc else 
 
 # 4 - split point column into latitude, longitude and altitude columns
 data[['latitude', 'longitude', 'altitude']] = pd.DataFrame(data['point'].tolist(), index=data.index)
-```
 
-
-```{python}
-#|echo: false
 data = pd.read_csv("data/SA_Aqar_Added_Attributes.csv")
 data['part_of_city'] = data['part_of_city'].astype('category')
 ```
@@ -565,17 +555,17 @@ data['part_of_city'] = data['part_of_city'].astype('category')
 Let's check the new attributes we created
 
 ```{python}
-#|echo: true
 data[['latitude', 'longitude', 'city']].head() 
 ```
 
 
 ```{python}
-data['latitude'].isna().sum() / len(data['latitude'])
+# data['latitude'].isna().sum() / len(data['latitude'])
 ```
 
 
 We need to process the data to turn it longitude and latitude (and city) into which part of the city a house belongs.
+<br>
 
 ```{python}
 
@@ -646,7 +636,6 @@ def assign_location(latitude: pd.Series, longitude: pd.Series, cities: pd.Series
 
 
 ```{python}
-#|echo: true
 #|eval: false
 data['part_of_city'] = convert_coord(data.latitude, data.longitude, data.city)
 data[['city', 'part_of_city']].head(10)
@@ -654,6 +643,7 @@ data[['city', 'part_of_city']].head(10)
 
 
 Let's visualize some basic statistics using the new attribute
+<br>
 
 ```{python}
 #|echo: false
@@ -683,7 +673,8 @@ ax4.set_title('Jeddah')
 ax4.set_ylabel("");
 ```
 
-The north east is the most expensive part of every city! (Except in Riyadh it's a close second.)
+The north east is the most expensive part of every city! (Except in Riyadh it's a close second).
+<br>
 
 ```{python}
 #| echo: false
@@ -722,7 +713,9 @@ ax4.set_title('Jeddah')
 ax4.set_ylabel("");
 ```
 
-The north east is the most expensive part of every city! (Except in Riyadh it's a close second.)
+The north east is the most expensive part of every city! (Except in Riyadh it's a close second).
+<br>
+
 ```{python}
 #|echo: false
 
@@ -814,9 +807,9 @@ ax4.set_ylabel("");
 
 
 
-# Overall Conclusion
+## Overall Conclusion
 
-# Challenges Faced
+## Challenges Faced
 
 During this assignment, we faced some obstacles that include:
 
@@ -824,3 +817,12 @@ During this assignment, we faced some obstacles that include:
 * Genearating mutliple plots and interacting them with Seaborn plots
 * Conflicts with team working and collaboration
 * data cleaning 
+
+## Resources
+Saudi Arabia Real Estate (AQAR), Rental house dataset for Riyadh, Jeddah, Dammam, and Alkhobar. [https://www.kaggle.com/datasets/lama122/saudi-arabia-real-estate-aqar](https://www.kaggle.com/datasets/lama122/saudi-arabia-real-estate-aqar).
+
+
+<br>
+
+## Source Code
+This report is hosted on Github Pages and the repo can be accessed via [this link](https://github.com/Turkinass/Aqar_Real_Estate_EDA).
