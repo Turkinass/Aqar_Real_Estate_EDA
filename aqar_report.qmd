@@ -877,6 +877,7 @@ In conclusion:
 - The rental rates are high in Jeddah compared to the other cities, where also the features that increase the price are found in their properties.
 -  The north region in each city tends to be the most expensive.
 - In each city, houses located in the southern side of the city were most prevalent.
+
 ## Challenges Faced
 
 During this assignment, we faced some obstacles that include:
