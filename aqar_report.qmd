@@ -567,9 +567,8 @@ nokit = data.groupby(['kitchen']).get_group(0)
 nokit
 
 sns.histplot(data=nokit, x="bedrooms", kde=True)
-
-sns.histplot(data=nokit, x="bathrooms", kde=True, color="orange");
-
+nokit
+sns.histplot(data=nokit, x="bathrooms", kde=True, color="skyblue")
 ```
 
 
