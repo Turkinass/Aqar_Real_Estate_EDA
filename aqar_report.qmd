@@ -474,7 +474,7 @@ We can conculde the following based on the feature plots:
 On average, properties with a basement room tend to be showcased at a higher rent rate.
 :::
 
-**Location: How are the properties with these locations distributed across the cities?**
+**Location: How are the properties with these features distributed across the cities?**
 
 ```{python}
 #| label: cityprice
