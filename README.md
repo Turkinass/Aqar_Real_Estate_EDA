@@ -3,7 +3,7 @@
 [:link: Click here to view the report](https://Turkinass.github.io/Aqar_Real_Estate_EDA/aqar_report.html)
 
 ## Introduction
-Aqar (عقار, “Real estate”) is Saudi Arabia’s biggest specialized online marketplace for—you guessed it—real estate. In 2021, 3718 posts were web scrapped from Aqar, covering the kingdom’s 4 major cites: Riyadh, Jeddah, Khobar and Dammam, in order to know more about the rental prices across the cities and what features affects it the most.
+Aqar (عقار, “Real estate”) is Saudi Arabia’s biggest specialized online marketplace for—you guessed it—real estate. In 2021, 3718 posts were web scraped from Aqar, covering the kingdom’s 4 major cites: Riyadh, Jeddah, Khobar and Dammam, in order to know more about the rental prices across the cities and what features affects it the most.
 
 ## The dataset
 
