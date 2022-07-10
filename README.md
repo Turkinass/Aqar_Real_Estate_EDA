@@ -5,7 +5,7 @@
 ## Introduction
 Aqar (عقار, “Real estate”) is Saudi Arabia’s biggest specialized online marketplace for—you guessed it—real estate. In 2021, 3718 posts were web scraped from Aqar, covering the kingdom’s 4 major cites: Riyadh, Jeddah, Khobar and Dammam, in order to know more about the rental prices across the cities and what features affects it the most.
 
-## The dataset
+## The Dataset
 
 The observations of the dataset were described using 24 features as follows:
 
@@ -33,5 +33,14 @@ fireplace| show whether the house have a fireplace or not
 price| show the price of the house
 details| shows any additional details from the house owner about the house
 
-## The team
+## The Team
 [Ahmed Almohammed](https://github.com/SWE-Ahmed), [Lana Almorabah](https://github.com/lana7am), [Mohammed Alsalamah](https://github.com/Mo-Salamah), [Yousef Alotaibi](https://github.com/YousefAlotaibi) and me :)
+
+## Resources
+Dataset
+- Alharbi, L. (2021, January). Saudi Arabia Real Estate (AQAR). Retrieved July 3, 2022 from [https://www.kaggle.com/datasets/lama122/saudi-arabia-real-estate-aqar](https://www.kaggle.com/datasets/lama122/saudi-arabia-real-estate-aqar).
+
+Geojson files
+- Bállega, H. (2020, September). Central Ops Automation & Analytics Exercise. Retrieved July 6, 2022 from [https://github.com/hectorballega/uber-centralops-assignment/](https://github.com/hectorballega/uber-centralops-assignment/).
+- Almuqwishi, Y. (2021, October). Reform API. Retrieved July 6, 2022 from [https://github.com/yazeed44/reform-api/](https://github.com/yazeed44/reform-api/).
+- Sajjad, M. (2020, December). Coursera_Capstone. Retrieved July 6, 2022 from [https://github.com/musaddiqsajjad/Coursera_Capstone/](https://github.com/musaddiqsajjad/Coursera_Capstone/).
