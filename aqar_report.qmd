@@ -1,13 +1,11 @@
 ---
 title: "Aqar Real Estate EDA"
-subtitle: ""
 author: "Turki Alsaedi, Yousef Alotaibi, Ahmed Almohammed, Lana Almorabah, Mohammed Alsalamah"
 author-title: Authors
 execute:
   echo: false
 format:
   html:
-    theme: pulse
     toc: true
     toc-title: Contents
     toc-depth: 2
@@ -105,6 +103,7 @@ with open(r"data/riyadh_districts.json", 'r', encoding='utf8', errors='ignore') 
     map = json.load(file)
 
 data = pd.read_csv("data/SA_Aqar.csv")
+data.drop_duplicates(keep='first', inplace=True)
 
 # getting arabic district names from map file
 ar_name = []
@@ -121,6 +120,12 @@ map_df = map_df.merge(district_df, left_on=["name"], right_on=["name_en"])
 # filter only real estate in given city
 city_name = "الرياض"
 data = data.loc[(data['city'].str.contains(city_name, case=False))]
+
+# select only districts with >= 5 rental units
+data_temp = data.groupby(['district']).size().reset_index(name='count') # count districts occurane
+data_temp = data_temp.loc[(data_temp['count'] >= 5)] 
+districts = data_temp['district']
+data = data.loc[(data['district'].isin(districts))]
 
 # get avg price per district
 data = data.groupby(['district'], as_index=False).mean()
@@ -144,22 +149,30 @@ fig = px.choropleth_mapbox(geo_df,
 fig.show()
 ```
 
-We can see that western north has the highest prices, which happen to be the area with the newest neighborhoods and many companies headquarters.
+We can see that western north has the highest prices, which happen to be the area with the newest neighborhoods and where many companies' headquarters are.
 
-The average prices vary across the 107 available districts in the kingdom’s capital from around 15,000 SR to x25 times the price at 400,000 SR.
+In this and the following maps not all districts are shown and that to keep the numbers as accurate as possible, since many districts have one or two rental units only which is not enough to be representative of the districts' rental prices.
+
+The average prices vary across the districts in the kingdom’s capital, ranging from around 35,000 SR to x8 times the price at 296,000 SR.
 
 This may seem unreasonable especially since it does not mention the type of the property.
 
-Riyadh in this dataset has a relatively high number of observations yet this does not mean it is free of anomalies such as Iskan district (due to it having only one observation).
 
 ```{python}
 #| fig-cap: "Average real estate price in each district in Jeddah"
 map_df = gpd.read_file("data/jeddah.geojson", encoding = "utf_8")
 data = pd.read_csv("data/SA_Aqar.csv")
+data.drop_duplicates(keep='first', inplace=True)
 
 # filter only real estate in given city
 city_name = "جدة"
 data = data.loc[(data['city'].str.contains(city_name, case=False))]
+
+# select only districts with >= 5 rental units
+data_temp = data.groupby(['district']).size().reset_index(name='count') # count districts occurane
+data_temp = data_temp.loc[(data_temp['count'] >= 5)] 
+districts = data_temp['district']
+data = data.loc[(data['district'].isin(districts))]
 
 # get avg price per district
 data = data.groupby(['district'], as_index=False).mean()
@@ -187,10 +200,17 @@ fig.show()
 #| fig-cap: "Average real estate price in each district in Khobar"
 map_df = gpd.read_file("data/khobar.geojson", encoding = "utf_8")
 data = pd.read_csv("data/SA_Aqar.csv")
+data.drop_duplicates(keep='first', inplace=True)
 
 # filter only real estate in given city
 city_name = "الخبر"
 data = data.loc[(data['city'].str.contains(city_name, case=False))]
+
+# select only districts with >= 5 rental units
+data_temp = data.groupby(['district']).size().reset_index(name='count') # count districts occurane
+data_temp = data_temp.loc[(data_temp['count'] >= 5)] 
+districts = data_temp['district']
+data = data.loc[(data['district'].isin(districts))]
 
 # get avg price per district
 data = data.groupby(['district'], as_index=False).mean()
@@ -216,12 +236,20 @@ fig.show()
 
 ```{python}
 #| fig-cap: "Average real estate price in each district in Dammam"
+
 map_df = gpd.read_file("data/dammam.geojson", encoding = "utf_8")
 data = pd.read_csv("data/SA_Aqar.csv")
+data.drop_duplicates(keep='first', inplace=True)
 
 # filter only real estate in given city
 city_name = "الدمام"
 data = data.loc[(data['city'].str.contains(city_name, case=False))]
+
+# select only districts with >= 5 rental units
+data_temp = data.groupby(['district']).size().reset_index(name='count') # count districts occurane
+data_temp = data_temp.loc[(data_temp['count'] >= 5)] 
+districts = data_temp['district']
+data = data.loc[(data['district'].isin(districts))]
 
 # get avg price per district
 data = data.groupby(['district'], as_index=False).mean()
@@ -245,7 +273,11 @@ fig = px.choropleth_mapbox(geo_df,
 fig.show()
 ```
 
-Another expected pattern can be seen in Jeddah and Khobar and Dammam where the highest prices of properties along or near to the sea. Yet some districts in Khobar, such as Sawari and Shira’a districts are fairly close to the sea yet have average prices, which is probably due to its distance from central Khobar.
+
+Although the dataset does not include information about all districts in all cities; this lack of information is more apparent in Khobar and Dammam which have only 5 and 6 districts respectively.
+
+
+Another expected pattern can be seen in Jeddah and Khobar and Dammam where the highest prices of properties along or near to the sea. Yet some districts in Khobar, such as Sawari and Aqiq districts are fairly close to the sea yet have average prices, which is probably due to its distance from central Khobar.
 
 <br>
 
